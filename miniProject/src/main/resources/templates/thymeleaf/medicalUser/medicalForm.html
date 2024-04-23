@@ -78,8 +78,35 @@ header {
   	<td><textarea rows="10" cols="50" name="hospitalContent"></textarea></td>
   </tr>
   <tr>
-  	<th>병원 운영시간</th>
-  	<td>
+  	<th>병원 진료 시간</th>
+	<td><h3>요일별 진료시간 입력</h3>
+    <form action="#" method="post">
+        월요일 진료시간:
+        <input type="time" id="monday_start" name="monday_start"> - <input type="time" id="monday_end" name="monday_end"><br><br>
+        
+        화요일 진료시간:
+        <input type="time" id="tuesday_start" name="tuesday_start"> - <input type="time" id="tuesday_end" name="tuesday_end"><br><br>
+
+        수요일 진료시간:
+        <input type="time" id="wednesday_start" name="wednesday_start"> - <input type="time" id="wednesday_end" name="wednesday_end"><br><br>
+
+        목요일 진료시간:
+        <input type="time" id="thursday_start" name="thursday_start"> - <input type="time" id="thursday_end" name="thursday_end"><br><br>
+
+        금요일 진료시간:
+        <input type="time" id="friday_start" name="friday_start"> - <input type="time" id="friday_end" name="friday_end"><br><br>
+
+        토요일 진료시간:
+        <input type="time" id="saturday_start" name="saturday_start"> - <input type="time" id="saturday_end" name="saturday_end"><br><br>
+
+        일요일 진료시간:
+        <input type="time" id="sunday_start" name="sunday_start"> - <input type="time" id="sunday_end" name="sunday_end"><br><br>
+
+        공휴일 진료시간:
+        <input type="time" id="holiday_start" name="holiday_end"> - <input type="time" id="holiday_start" name="holiday_end"><br><br>
+
+        <input type="submit" value="저장">
+    </form>
   	
 		
 	
