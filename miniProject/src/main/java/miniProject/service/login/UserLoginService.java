@@ -2,14 +2,44 @@ package miniProject.service.login;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import miniProject.command.LoginCommand;
+import miniProject.domain.AuthInfoDTO;
+import miniProject.mapper.LoginMapper;
 
 @Service
 public class UserLoginService {
-	public void execute(LoginCommand loginCommand, HttpSession session) {
+	
+	@Autowired
+	LoginMapper loginMapper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	public void execute(LoginCommand loginCommand, HttpSession session, BindingResult result) {
 		String userId = loginCommand.getUserId();
 		String userPw = loginCommand.getUserPw();
+		
+		AuthInfoDTO auth = loginMapper.loginSelect(userId);
+		
+		if(auth != null) {
+			if(passwordEncoder.matches(userPw, auth.getUserPw())) {
+				if(auth.getUserEmailCheck() == null) {
+					result.rejectValue("userId", "loginCommand.userId", "이메일 인증이 되지 않았습니다.");
+				}else {
+					System.out.println("비밀번호가 일치");
+					session.setAttribute("auth", auth);
+				}
+			}else {
+				System.out.println("비밀번호가 일치하지 않을 때");
+				result.rejectValue("userPw", "loginCommand.userPw", "비밀번호가 일치하지 않습니다.");
+			}
+		}else {
+			System.out.println("아이디가 존재하지 않을 때");
+			result.rejectValue("userId", "loginCommand.userId", "아이디가 존재하지 않습니다.");
+		}
 	}
 }

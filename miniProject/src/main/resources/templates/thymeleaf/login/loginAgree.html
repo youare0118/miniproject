@@ -3,6 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	var user = "";
+	$("#membersBtn").click(function(){
+		user = "member";
+	});
+	$("#hospitalBtn").click(function(){
+		user = "hospital";
+	});
+	$("#frm").ajaxForm({
+		beforeSubmit : function(){
+			var agreeCheckbox = document.getElementById("agreeCheckbox");
+
+		    // 만약 checkbox가 선택되었는지 확인
+		    if (!agreeCheckbox.checked) {
+		        alert("약관에 동의해주세요.");
+		        return false;
+		    }
+		},
+		success:function(){
+			if(user == "member")
+				location.href="/login/userForm";
+			else(user == "hospital")
+				location.href="/medicalUser/userWrite";
+		 },
+		 error: function(){
+			 alert("서버오류");
+		 }
+	});
+});
+
+function history_back() {
+	  window.history.back();
+}
+
+function checkAgreement() {
+    var agreeCheckbox = document.getElementById("agreeCheckbox");
+
+    // 만약 checkbox가 선택되었는지 확인
+    if (!agreeCheckbox.checked) {
+        alert("약관에 동의해주세요.");
+        return false;
+    }
+}
+
+</script>
+
+<!-- css -->
 <style>
 header:p {
 	text-align: right;
@@ -31,21 +82,12 @@ div {
     text-align: center;
 }
 </style>
-<script type="text/javascript">
-function history_back() {
-	  window.history.back();
-	}
-function checkAgreement() {
-    var agreeCheckbox = document.getElementById("agreeCheckbox");
 
-    // 만약 checkbox가 선택되었는지 확인
-    if (!agreeCheckbox.checked) {
-        alert("약관에 동의해주세요.");
-    }
-}
-</script>
 </head>
 <body>
+
+<!-- form -->
+<form action="/medicalUser/userWrite" method="post" name="frm">
 <header>
 	<h3><a href="/">메디북 로고</a></h3>
 	<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
@@ -55,15 +97,21 @@ function checkAgreement() {
 가입하고자 하시는 고객님의 회원 유형을 선택하세요.<br>
 <strong>회원종류에 따라 가입 절차에 차이</strong>가 있으니, 본인이 해당하는 경우를 선택해 가입해시기 바랍니다.
 <hr>
-<button type="button" id="membersBtn">
-	<img src="/static/images/members.png" width="70" alt="회원이미지"><p>일반회원</p>
-</button>
-<button type="button" id="hospitalBtn">
-	<img src="/static/images/hospital.png" width="70" alt="병원이미지"><p>병원회원</p>
-</button>
+
+<label style="vertical-align: middle;">
+	<img src="/static/images/members.png" width="70" alt="회원이미지">
+	<input type="radio" id="membersBtn"/>일반회원
+</label>
+
+<label style="vertical-align: middle;">
+	<img src="/static/images/hospital.png" width="70" alt="병원이미지">
+	<input type="radio" id="hospitalBtn"/>병원회원
+</label>
+
+<br/>
+<br/>
 <h3><img src="/static/images/checkbox.png" width="20"> 홈페이지 이용약관</h3>
 <hr>
-<form action="/medicalUser/userWrite" method="post" name="frm">
 <div class="signupBoxTool__signupBox__terms__summary">
 	<pre>이용약관
 
@@ -262,6 +310,8 @@ function checkAgreement() {
 본 약관은 2024년 4월22일 부터 적용합니다.</pre>
 	
 </div>
+
+<br/>
 <h3><img src="/static/images/checkbox.png" width="20"> 개인정보 수집/이용 안내</h3>
 	<div class="signupBoxTool__signupBox__terms__summary">
 		<pre>
@@ -406,9 +456,12 @@ function checkAgreement() {
 	<label>
 		<input type="checkbox" id="agreeCheckbox" name="agreeCheckbox"/>위의 '이용약관, 개인정보 수집·이용'에 동의 합니다.<br>
 	</label>
+	
+	<br/>
 	<input type="button" value="가입취소" onclick="history_back()"/>
 	<input type="submit" onclick="checkAgreement()" value="다음단계로" /> 
 	</form>
 </section>
+
 </body>
 </html>

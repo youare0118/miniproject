@@ -8,7 +8,8 @@
 	MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW, 
 	MEMBER_BIRTH, MEMBER_GENDER, MEMBER_JUMIN, 
 	MEMBER_EMAIL, MEMBER_PHONE, MEMBER_ADDR,
-	MEMBER_ADDR_DETAIL, MEMBER_POST, MEMBER_VIP
+	MEMBER_ADDR_DETAIL, MEMBER_POST, MEMBER_VIP,
+	member_email_conf
 </sql>
 
 <select id="memberSelectList" resultType="member" parameterType="startEndPageDTO">
@@ -35,11 +36,12 @@
    insert into member(	MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW, 
 						MEMBER_BIRTH, MEMBER_GENDER, MEMBER_JUMIN, 
 						MEMBER_EMAIL, MEMBER_PHONE, MEMBER_ADDR,
-						MEMBER_ADDR_DETAIL, MEMBER_POST, MEMBER_VIP)
+						MEMBER_ADDR_DETAIL, MEMBER_POST, MEMBER_VIP,
+						member_email_conf)
    values(#{memberNum},#{memberName},#{memberId},#{memberPw}
    		,#{memberBirth},#{memberGender},#{memberJumin}
    		,#{memberEmail},#{memberPhone},#{memberAddr}
-   		,#{memberAddrDetail},#{memberPost},'N')
+   		,#{memberAddrDetail},#{memberPost},'N','N')
 </insert>
 
 <select id="memberSelectOne" parameterType="string" resultType="member">
