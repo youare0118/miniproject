@@ -12,12 +12,18 @@ header {
    justify-content: space-between;
    align-items: center;
 }
+
 </style>
 </head>
 <body>
 <header>
-   <h3>메디북 로고</h3>
-   <p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p></a>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
+	<th:block th:if="${session.auth == null}">
+   		<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p></a>
+	</th:block>
+	<th:block th:if="${session.auth != null}">
+   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</p></a>
+   	</th:block>
 </header>
 
 <!-- 관리자 -->

@@ -6,7 +6,6 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script type="text/javascript">
-
 $(function(){
 	var user = "";
 	$("#membersBtn").click(function(){
@@ -36,22 +35,37 @@ $(function(){
 		 }
 	});
 });
-
+//가입취소 버튼 클릭시 이전화면으로 되돌아감
 function history_back() {
 	  window.history.back();
 }
 
+
 function checkAgreement() {
+    var membersBtn = document.getElementById("membersBtn");
+    var hospitalBtn = document.getElementById("hospitalBtn");
     var agreeCheckbox = document.getElementById("agreeCheckbox");
 
-    // 만약 checkbox가 선택되었는지 확인
     if (!agreeCheckbox.checked) {
         alert("약관에 동의해주세요.");
         return false;
     }
+
+    if (membersBtn.checked) {
+        location.href = "/member/memberRegist"; // 일반회원 가입 페이지로 이동
+    } else if (hospitalBtn.checked) {
+        location.href = "/medicalUser/userWrite"; // 병원회원 가입 페이지로 이동
+    }
 }
 
+function history_back() {
+    window.history.back();
+}
 </script>
+
+
+</script>
+
 
 <!-- css -->
 <style>
@@ -86,10 +100,8 @@ div {
 </head>
 <body>
 
-<!-- form -->
-<form action="/medicalUser/userWrite" method="post" name="frm">
 <header>
-	<h3><a href="/">메디북 로고</a></h3>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
 	<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
 </header>
 <section>
@@ -100,12 +112,12 @@ div {
 
 <label style="vertical-align: middle;">
 	<img src="/static/images/members.png" width="70" alt="회원이미지">
-	<input type="radio" id="membersBtn"/>일반회원
+	<input type="radio" name="who" id="membersBtn" checked="checked"/>일반회원
 </label>
 
 <label style="vertical-align: middle;">
 	<img src="/static/images/hospital.png" width="70" alt="병원이미지">
-	<input type="radio" id="hospitalBtn"/>병원회원
+	<input type="radio" name="who" id="hospitalBtn"/>병원회원
 </label>
 
 <br/>
@@ -460,7 +472,6 @@ div {
 	<br/>
 	<input type="button" value="가입취소" onclick="history_back()"/>
 	<input type="submit" onclick="checkAgreement()" value="다음단계로" /> 
-	</form>
 </section>
 
 </body>

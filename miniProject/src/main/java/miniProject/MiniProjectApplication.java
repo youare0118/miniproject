@@ -19,6 +19,7 @@ public class MiniProjectApplication {
    
    @GetMapping("/")
    public String index() {
+	  
       return "thymeleaf/main";
    }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC    
+   "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniProject.mapper.HospitalMapper">
+<sql id="hospitalBaseColumns">
+	HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
+	, HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
+	, HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
+	, HOSPITAL_NOTICE, HOSPITAL_DOCTOR
+</sql>
+
+<insert id="hospitalInsert" parameterType="hospital">
+	insert into hospital(HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
+						, HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
+						, HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
+						, HOSPITAL_NOTICE, HOSPITAL_DOCTOR)
+	values(#{hospitalNum}, #{hospitalId}, #{hospitalPw}, #{hospitalName}, #{hospitalCode}, #{hospitalAddr}, #{hospitalAddrDetail}
+			, #{hospitalPost}, #{hospitalEmail}, #{hospitalPhone}, #{hospitalContent}, #{hospitalCategory}, 0, 0)
+</insert>
+</mapper>
