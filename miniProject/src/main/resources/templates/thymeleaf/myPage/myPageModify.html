@@ -3,21 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 > 정보수정</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+</script>
 </head>
 <body>
 
-<h3 align="center">마이페이지 > 정보수정</h3><br/>
+<h3 align="center">마이페이지 > 내 정보 (수정중)</h3><br/>
 
 <table width="600" border="1" align="center">
 	<tr><th align="center">
 			<a href="myPageReserve">예약내역</a> |
 			<a href="myPageWish">즐겨찾기</a> |
-			<a href="myPageModify">정보수정</a> |
+			<a href="myPageDefalt">내 정보</a> |
 			<a href="myPageNewPw">비밀번호변경</a> |
 			<a href="myPageDrop">회원탈퇴</a>
 		</th>
 	</tr>
 </table>
 
+<br/>
+<form action="myPageModify" method="post" name="frm" th:object="${memberCommand}">
+<input type="hidden" name="memberPwCon" value="Abcd!1234">
+
+	<table border = "1" width ="600" align="center">
+		
+		<tr><th width="150">회원번호</th>
+			<td><input type="text" name="memberNum" th:value="${memberCommand.memberNum}" readonly="readonly" /></td></tr>
+		
+		<tr><th>성명</th>
+			<td><input type="text" name="memberName" th:value="${memberCommand.memberName}" readonly="readonly"/></td></tr>
+			
+		<tr><th>주민번호</th>
+			<td><input type="text" name="memberJumin" th:value="${memberCommand.memberJumin}" readonly="readonly"/></td></tr>
+		
+		<tr><th>생년월일</th>
+			<td><input type="date" name="memberBirth" 
+						th:value="${#dates.format(memberCommand.memberBirth,'yyyy-MM-dd')}" readonly="readonly"/></td></tr>
+		
+		<tr><th>성별</th>
+			<td><input type="radio" name="memberGender" 
+				th:checked="${memberCommand.memberGender == 'M'}" value="M" readonly="readonly" disabled="disabled"/>남자
+	  		<input type="radio" name="memberGender" 
+				th:checked="${memberCommand.memberGender == 'F'}" value="F" readonly="readonly" disabled="disabled"/>여자 </td></tr>
+		
+		<tr><th>아이디</th>
+			<td><input type="text" name="memberId" th:value="${memberCommand.memberId}" readonly="readonly" /><span id='idCheck'></td></tr>
+		
+		<tr><th>비밀번호</th>
+			<td><input type="password" name="memberPw" id="memberPw" /><br/>
+				<span style="font-size:10px; color: red " id="errPw" th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}" ></span></td></tr>
+			
+		<tr><th>이메일</th>
+			<td><input type="text" name="memberEmail" id="userEmail" th:value="${memberCommand.memberEmail}"/><br/>
+				<span style="font-size:10px; color: red" id="errEmail" th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}"></span>
+		  		<span id="emailCheck"></span></td></tr>
+		
+		<tr><th>휴대전화</th>
+			<td><input type="text" name="memberPhone" id="memberPhone" th:value="${memberCommand.memberPhone}"/><br/>
+				<span style="font-size:10px; color: red" id="errPhone" th:if="${#fields.hasErrors('memberPhone')}" th:errors="*{memberPhone}"></span></td></tr>
+		
+		<tr><th>주소</th>
+			<td><input type="text" name="memberPost" id="sample4_postcode" th:value="${memberCommand.memberPost}" placeholder="우편번호"/>
+				<button type="button" onclick="execDaumPostcode()">주소찾기</button><br/>
+				<input type="text" name="memberAddr" id="sample4_roadAddress" th:value="${memberCommand.memberAddr}" placeholder="주소"/>
+				<span style="font-size:10px; color: red" id="errAddr" th:if="${#fields.hasErrors('memberAddr')}" th:errors="*{memberAddr}"></span><br />
+				<input type="text" name="memberAddrDetail" th:value="${memberCommand.memberAddrDetail}" placeholder="상제주소"/></td></tr>
+		
+		<tr><th colspan="2" align="right">
+			<button type="button" onclick="javascript:history.back();">수정취소</button>
+			<input type="submit" value="수정완료"/></th></tr>
+	</table>
+</form>
 </body>
 </html>

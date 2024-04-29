@@ -3,6 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 > 회원탈퇴</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#frm").submit(function(){
+		if($("#memberPw").val() == ""){
+			$("#errPw").text("비밀번호를 입력해주세요.");
+			$("#memberPw").focus();
+			return false;
+		}else{
+			conf = confirm("정말 탈퇴하시겠습니까?");
+			if(!conf){
+				return false;
+			}
+		}
+	});
+});
+</script>
 </head>
 <body>
 
@@ -12,12 +29,14 @@
 	<tr><th align="center">
 			<a href="myPageReserve">예약내역</a> |
 			<a href="myPageWish">즐겨찾기</a> |
-			<a href="myPageModify">정보수정</a> |
+			<a href="myPageDefalt">내 정보</a> |
 			<a href="myPageNewPw">비밀번호변경</a> |
 			<a href="myPageDrop">회원탈퇴</a>
 		</th>
 	</tr>
 </table>
+
+<form action="myPageDropOk" method="post" name="frm" id="frm">
 
 <table width="600" align="center">
 	<tr><td>
@@ -34,10 +53,13 @@
 			<p style="font-size:11px; color:gray;">탈퇴 후에는 회원정보가 삭제되어 본인 여부를 확인할 수 있는 방법이 없어, 게시글을 임의로 삭제해드릴 수 없습니다.</p>
 		</td></tr>
 	
-	<tr><td align="center">
-			<br/>
-			<button type="button" onclick="">회원탈퇴</button>
-		</td></tr>
+	<tr><td align="center"><br/>
+			비밀번호 입력 : <input type="password" id="memberPw" name="memberPw" />
+			<input type="submit" value="회원탈퇴"/>
+			<div style="font-size:11px; color:red" id="errPw">[[${errPw }]]</div>
+	</tr>
 </table>
+</form>
+
 </body>
 </html>

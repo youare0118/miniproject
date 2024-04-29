@@ -12,10 +12,25 @@
 	<tr><th align="center">
 			<a href="myPageReserve">예약내역</a> |
 			<a href="myPageWish">즐겨찾기</a> |
-			<a href="myPageModify">정보수정</a> |
+			<a href="myPageDefalt">내 정보</a> |
 			<a href="myPageNewPw">비밀번호변경</a> |
 			<a href="myPageDrop">회원탈퇴</a>
 		</th>
+	</tr>
+</table>
+
+<br/>
+<table width="600" border="1" align="center">
+	<tr><td>번호</td><td>병원명</td><td>의사명</td><td>진료과목</td><td>상태</td><td>예약날짜</td><td>예약시간</td></tr>
+
+	<tr th:each=  "dto , idx : ${dtos}">
+		<td>[[${idx.count}]]</td>
+		<td>병원명</td>
+		<td>의사명</td>
+		<td>진료과목</td>
+		<td>상태</td>
+		<td>예약날짜</td>
+		<td>예약시간</td>
 	</tr>
 </table>
 

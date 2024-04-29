@@ -3,6 +3,7 @@ package miniProject.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import miniProject.command.LoginCommand;
+import miniProject.command.MemberCommand;
+import miniProject.service.login.MemberWriteService;
 import miniProject.service.login.UserLoginService;
 
 @Controller
@@ -23,6 +26,8 @@ public class LoginController {
 	
 	@Autowired
 	UserLoginService userLoginService;
+	@Autowired
+	MemberWriteService memberWriteService;
 	
 	@GetMapping("login")
 	public String login() {
@@ -45,9 +50,26 @@ public class LoginController {
 	public String agree() {
 		return "thymeleaf/login/loginAgree";
 	}
+	
 	@RequestMapping(value="logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="userForm", method = RequestMethod.GET)
+	public String userForm(MemberCommand memberCommand) {
+		return "thymeleaf/login/userForm";
+	}
+	
+	@PostMapping("userRegist")
+	public String userRegist(@Validated MemberCommand memberCommand, BindingResult result,
+			Model model) {
+		// 오류가 있는 경우 오류 메시지가 출력되게 한다.
+		if(result.hasErrors()) {
+			return "thymeleaf/login/userForm";
+		}
+		memberWriteService.execute(memberCommand, model);//  정상적으로 저장이 되었다.
+		return "thymeleaf/login/welcome";
 	}
 }

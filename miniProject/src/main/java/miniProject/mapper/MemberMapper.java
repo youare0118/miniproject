@@ -3,6 +3,7 @@ package miniProject.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import miniProject.domain.MemberDTO;
@@ -16,6 +17,10 @@ public interface MemberMapper {
 	public Integer memberCount();
 	public void memberInsert(MemberDTO dto);
 	public MemberDTO memberSelectOne(String memberNumOrId);
-	public void memberUpdate(MemberDTO dto);
+	public int memberUpdate(MemberDTO dto);
 	public int memberDelete(String memberNum);
+	public void memberPwUpdate(@Param("memberPw") String memberPw, 
+			   @Param("memberId") String memberId);
+	public int memberJoinInsert(MemberDTO dto);
+	public String inIdOutNum(String memberId);
 }
