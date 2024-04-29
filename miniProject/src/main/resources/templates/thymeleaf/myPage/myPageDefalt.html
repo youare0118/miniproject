@@ -2,22 +2,63 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>마이페이지 > 내 정보</title>
+<script type="text/javascript">
+function btnUpdate(memberNum){
+	location.href='myPageUpdate?memberNum=' + memberNum;
+}
+</script>
 </head>
 <body>
 
-<h3 align="center">마이페이지</h3><br/>
+<h3 align="center">마이페이지 > 내 정보</h3><br/>
 
 <table width="600" border="1" align="center">
 	<tr><th align="center">
 			<a href="myPageReserve">예약내역</a> |
 			<a href="myPageWish">즐겨찾기</a> |
-			<a href="myPageModify">정보수정</a> |
+			<a href="myPageDefalt">내 정보</a> |
 			<a href="myPageNewPw">비밀번호변경</a> |
 			<a href="myPageDrop">회원탈퇴</a>
 		</th>
 	</tr>
 </table>
 
+<br/>
+	<table border = "1" width ="600" align="center">
+		
+		<tr><th>성명</th>
+			<td>[[${memberCommand.memberName }]]</td></tr>
+			
+		<tr><th>주민번호</th>
+			<td>[[${memberCommand.memberJumin }]]</td></tr>
+		
+		<tr><th>생년월일</th>
+			<td>[[${#dates.format(memberCommand.memberBirth, 'yyyy-MM-dd') }]]</td></tr>
+		
+		<tr><th>성별</th>
+			<td><span th:if="${memberCommand.memberGender == 'M'}">남자</span>
+	  			<span th:if="${memberCommand.memberGender == 'F'}">여자</span></td></tr>
+		
+		<tr><th>아이디</th>
+			<td>[[${memberCommand.memberId }]]</td></tr>
+				
+		<tr><th>이메일</th>
+			<td>[[${memberCommand.memberEmail }]]</td></tr>
+		
+		<tr><th>휴대전화</th>
+			<td>[[${memberCommand.memberPhone }]]</td></tr>
+		
+		<tr><th>주소</th>
+			<td>[[${memberCommand.memberPost }]]<br/>
+				[[${memberCommand.memberAddr }]]<br/>
+				[[${memberCommand.memberAddrDetail }]]</td></tr>
+		
+		<tr><th colspan="2" align="right">
+			<button type="button" th:attr="onclick=|btnUpdate('${memberCommand.memberNum }')|">정보수정</button></th></tr>
+	</table>
+	
+	<br/>
+	
 </body>
 </html>

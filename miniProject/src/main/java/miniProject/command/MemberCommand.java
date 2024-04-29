@@ -23,7 +23,7 @@ public class MemberCommand {
 		@NotEmpty(message = "아이디를 입력해주세요.")
 		String memberId;
 		
-		@Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#!@%&-+~]).{8,12}$",message = "비밀번호를 조건에 맞게 입력해주시길 바랍니다.") // regexp : 정규표현식
+		@Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#!@%&-+~]).{8,12}$", message = "비밀번호를 조건에 맞게 입력해주시길 바랍니다.") // regexp : 정규표현식
 		String memberPw;
 		
 		@NotBlank(message = "비밀번호 확인을 입력해주세요.")

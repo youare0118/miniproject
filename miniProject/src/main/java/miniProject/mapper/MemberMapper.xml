@@ -77,8 +77,35 @@
 <delete id="memberDelete" parameterType="string">
 	delete from member
 	<trim prefix="where" prefixOverrides="AND|OR">
-		member_num = #{memberNum}
+		member_num = #{memberNum} or member_id = #{memberNum}
 	</trim>
 </delete>
 
+<update id="memberPwUpdate">
+update member
+set member_pw = #{memberPw}
+where member_id = #{memberId}
+</update>
+
+<sql id="memberAutoNum">
+	select concat('mem', nvl(max(substr(member_num,4)),100000) + 1) from member
+</sql>
+
+<insert id="memberJoinInsert" parameterType="member">
+insert into member(	MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW, 
+						MEMBER_BIRTH, MEMBER_GENDER, MEMBER_JUMIN, 
+						MEMBER_EMAIL, MEMBER_PHONE, MEMBER_ADDR,
+						MEMBER_ADDR_DETAIL, MEMBER_POST, MEMBER_VIP,
+						member_email_conf)
+values((<include refid="memberAutoNum" />),#{memberName},#{memberId},#{memberPw}
+   		,#{memberBirth},#{memberGender},#{memberJumin}
+   		,#{memberEmail},#{memberPhone},#{memberAddr}
+   		,#{memberAddrDetail},#{memberPost},'N','N')
+</insert>
+
+<select id="inIdOutNum" parameterType="string" resultType="string">
+select member_num
+from member
+where member_ID = #{memberId};
+</select>
 </mapper>
