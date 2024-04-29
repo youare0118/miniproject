@@ -3,6 +3,7 @@ package miniProject.service.hospital;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import miniProject.command.HospitalCommand;
 import miniProject.domain.HospitalDTO;
@@ -15,7 +16,7 @@ public class HospitalInsertService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	public void execute(HospitalCommand hospitalCommand) {
+	public void execute(HospitalCommand hospitalCommand,Model model) {
 		HospitalDTO dto = new HospitalDTO();
 		
 		dto.setHospitalNum(hospitalCommand.getHospitalNum());
@@ -32,12 +33,14 @@ public class HospitalInsertService {
 		dto.setHospitalCategory(hospitalCommand.getHospitalCategory());
 		dto.setHospitalNotice(hospitalCommand.getHospitalNotice());
 		dto.setHospitalDoctor(hospitalCommand.getHospitalDoctor());
+		String hospitalNum = dto.getHospitalNum();
 		
 		//비밀번호 암호화
 		String encoderPw = passwordEncoder.encode(hospitalCommand.getHospitalPw());
 		System.out.println(encoderPw);
 		dto.setHospitalPw(encoderPw);
 
+		model.addAttribute("hospitalNum",hospitalNum);
 		hospitalMapper.hospitalInsert(dto);
 	}
 }
