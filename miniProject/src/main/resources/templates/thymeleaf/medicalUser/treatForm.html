@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+
+
+
+
+</script>
+<style>
+header:p {
+	text-align: right;
+}
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#hospitalBtn {
+	background-color: skyblue;
+}
+/* 전체 폼 스타일 */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* 테이블 헤더 스타일 */
+th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+
+/* 테이블 셀 스타일 */
+td {
+    padding: 10px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* 내부 패딩과 경계선을 포함하여 요소의 크기를 정의합니다. */
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* 입력 필드 포커스 스타일 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: dodgerblue;
+}
+
+/* 버튼 스타일 */
+input[type="submit"],
+input[type="button"] {
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #4CAF50; /* hover 시 밝은 색상으로 변경 */
+}
+
+/* 설명 텍스트 스타일 */
+p {
+    font-size: 12px;
+    color: gray;
+}
+
+/* 이메일 입력 스타일 */
+#email1,
+#email2 {
+    width: 45%; /* 이메일 주소와 도메인 입력 필드를 각각의 넓이에 맞게 설정합니다. */
+    display: inline-block;
+}
+
+#emailSelection {
+    width: 50%; /* 이메일 도메인 선택 드롭다운의 넓이를 설정합니다. */
+    margin-top: 5px;
+}
+
+/* 주소 입력 스타일 */
+#sample4_postcode,
+#sample4_roadAddress,
+#hospitalPhone {
+    width: calc(100% - 120px); /* 우편번호 찾기 버튼을 고려하여 입력 필드의 넓이를 조정합니다. */
+}
+
+/* 병원 소개 텍스트 영역 스타일 */
+textarea {
+    resize: vertical; /* 수직으로만 크기 조절이 가능하도록 설정합니다. */
+}
+</style>
+</head>
+<body>
+<header>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
+	<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
+</header>
+<section>
+<h1>병원 진료 정보 입력</h1>
+<hr>
+<form action="treatInsert" method="post" name="frm">
+<table border=1 align="center">
+	<tr>
+		<th>병원번호</th>
+		<td><input type="text" name="hospitalNum" th:value="${hospitalNum}" readonly="readonly"/></td>
+	</tr>
+	<tr>
+		<th>진료 의사 정보</th>
+		<td><input type="text" name="treatDoctor" id="treatDoctor" /></td>
+	</tr>
+ <tr>
+  	<th>병원 진료 시간</th>
+	<td><h3>요일별 진료시간 입력</h3>
+        월요일 진료시간:
+        <input type="time" id="monday_start" name="monday_start" /> - <input type="time" id="monday_end" name="monday_end"  /><br><br>
+        
+        화요일 진료시간:
+        <input type="time" id="tuesday_start" name="tuesday_start"  /> - <input type="time" id="tuesday_end" name="tuesday_end"  /><br><br>
+
+        수요일 진료시간:
+        <input type="time" id="wednesday_start" name="wednesday_start"  /> - <input type="time" id="wednesday_end" name="wednesday_end"  /><br><br>
+
+        목요일 진료시간:
+        <input type="time" id="thursday_start" name="thursday_start"  /> - <input type="time" id="thursday_end" name="thursday_end"  /><br><br>
+
+        금요일 진료시간:
+        <input type="time" id="friday_start" name="friday_start"  /> - <input type="time" id="friday_end" name="friday_end"  /><br><br>
+
+        토요일 진료시간:
+        <input type="time" id="saturday_start" name="saturday_start"  /> - <input type="time" id="saturday_end" name="saturday_end"  /><br><br>
+
+        일요일 진료시간:
+        <input type="time" id="sunday_start" name="sunday_start"  /> - <input type="time" id="sunday_end" name="sunday_end"  /><br><br>
+
+        공휴일 진료시간:
+        <input type="time" id="holiday_start" name="holiday_start"  /> - <input type="time" id="holiday_end" name="holiday_end"  /><br><br></td>
+   </tr>
+   <tr>
+   		<td colspan=2 align="center"><input type="submit" value="병원 등록" /></td>
+   	</tr>
+</table>
+</form>
+</section>
+</body>
+</html>
