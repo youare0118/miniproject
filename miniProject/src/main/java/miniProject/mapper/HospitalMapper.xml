@@ -32,4 +32,26 @@
 	where hospital_id = #{hospitalId}
 </select>
 
+<resultMap type="hospital" id="hospitalResultMap">
+   <id column="HOSPITAL_NUM" jdbcType="VARCHAR" property="hospitalNum"/>
+   <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId"/>
+   <result column="HOSPITAL_PW" jdbcType="VARCHAR" property="hospitalPw"/>
+   <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName"/>
+   <result column="HOSPITAL_CODE" jdbcType="VARCHAR" property="hospitalCode"/>
+   <result column="HOSPITAL_ADDR" jdbcType="VARCHAR" property="hospitalAddr"/>
+   <result column="HOSPITAL_ADDR_DETAIL" jdbcType="VARCHAR" property="hospitalAddrDetail"/>
+   <result column="HOSPITAL_POST" jdbcType="BIGINT" property="hospitalPost"/>
+   <result column="HOSPITAL_EMAIL" jdbcType="VARCHAR" property="hospitalEmail"/>
+   <result column="HOSPITAL_PHONE" jdbcType="VARCHAR" property="hospitalPhone"/>
+   <result column="HOSPITAL_CONTENT" jdbcType="VARCHAR" property="hospitalContent"/>
+   <result column="HOSPITAL_CATEGORY" jdbcType="VARCHAR" property="hospitalCategory"/>
+   <result column="HOSPITAL_NOTICE" jdbcType="VARCHAR" property="hospitalNotice"/>
+   <result column="HOSPITAL_DOCTOR" jdbcType="VARCHAR" property="hospitalDoctor"/>
+</resultMap>
+
+<select id="hospitalSelectList" resultMap="hospitalResultMap">
+   select <include refid="hospitalBaseColumns"/>
+   from hospital
+</select>
+
 </mapper>

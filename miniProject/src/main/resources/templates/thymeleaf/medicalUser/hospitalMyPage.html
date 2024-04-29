@@ -215,12 +215,10 @@ li{
 </th:block>
 	<th:block th:if="${session.auth == null}">
    		<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p>
-	</th:block>
+	</th:block><br>
+
 </header>
 <nav>
-<a></a>
-	<h1>내 병원 관리 > 병원 기초정보 관리</h1>
-	<hr>
     <div class="menu-wrapper">
         <div id="menu">
             <ul>
@@ -231,7 +229,7 @@ li{
                     <a href="#" id="treatInfo" data-tab="treatInfo" class="tabmenu">병원 진료정보 관리</a>
                 </li>
                 <li>
-                    <a href="#" id="changePw" data-tab="changePw" class="tabmenu">비번 변경</a>
+                    <a href="#" id="changePw" data-tab="changePw" class="tabmenu">비밀번호 변경</a>
                 </li>
 				<li>
 				    <a href="#" id="out" data-tab="out" class="tabmenu">회원 탈퇴</a>
@@ -242,6 +240,8 @@ li{
     </div>
 </nav>
 <section id="section">
+<a></a><h1>내 병원 관리 > 병원 기초정보 관리</h1>
+<hr>
 <table border=1 align="center">
 	<tr>
 		<th>병원번호</th>

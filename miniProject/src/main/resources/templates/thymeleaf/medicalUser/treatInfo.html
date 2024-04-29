@@ -8,14 +8,14 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    // 회원 탈퇴 버튼 클릭 시
+    // 수정하기 버튼 클릭 시
     $('#treatModify').click(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '/medicalUser/treatModify.html', // 회원 탈퇴 페이지의 URL
+            url: '/medicalUser/treatModify.html', // 수정하기 페이지의 URL
             type: 'GET',
             success: function(data) {
-                // 성공 시 회원 탈퇴 페이지의 내용으로 section 업데이트
+                // 성공 시 수정하기 페이지의 내용으로 section 업데이트
                 $('#section').html(data);
             }
         });
@@ -24,6 +24,8 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
+<a></a><h1>내 병원 관리 > 병원 진료정보 관리</h1>
+<hr>
 <table border=1 align="center">
 	<tr>
 		<th>병원번호</th>
