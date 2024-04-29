@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>메디북 : 예약하기</title>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee54e408fd253fbd47664b71010d6e40&libraries=services,clusterer,drawing"></script>
+</head>
+
+<!-- css -->
+<style>
+header:p {
+   text-align: right;
+}
+header {
+   display: flex;
+   justify-content: space-between; 
+   align-items: center;
+}
+
+#parent{
+    width: 90%;
+    margin: 10px auto;
+}
+
+#hospitalInfo {
+    /* border: 1px solid red; */
+    float: left;
+    width:40%;
+    box-sizing: border-box;
+}
+
+#reservationInfo{
+    border: 1px solid green; 
+    float: left;
+    margin-left: 5%;
+    width:55%;
+    box-sizing: border-box;
+}
+
+.LSize{
+	font-weight: bold;
+	font-size:18px;
+	color:black;
+}
+
+.mSize{
+	font-size:13px;
+	color:#3c3c3c;
+}
+
+.sSize{
+	font-size:10px;
+	color:black;
+}
+
+</style>
+
+<body>
+<header>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
+	<th:block th:if="${session.auth != null}" >
+		<th:block th:if="${session.auth.grade == 'mem'}">
+	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</p>
+		</th:block>
+		<th:block th:if="${session.auth.grade == 'hospital'}">
+	   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</p>
+		</th:block>
+	</ul>
+	</th:block>
+	<th:block th:if="${session.auth == null}">
+   		<p style="margin: 0 50px 0 0;"><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p></a>
+	</th:block>
+
+</header>
+
+	<th:block th:if="${session.auth != null}" >
+		<th:block th:if="${session.auth.grade == 'mem'}">
+			<ul>
+				<li><a href="myPage/myPageDefalt">마이페이지</a></li>
+			</ul>
+	
+	        <!-- 관리자만 사용 가능 관리자 ID : medibook / PW:medibook00@ -->
+			<th:block th:if="${session.auth.userId == 'medibook'}">
+				<ul>
+			  		 <li><a href="member/memberList">관리자 : 회원관리</a></li>
+			  		 <li><a href="">관리자 : 병원관리</a></li>
+				</ul>
+			</th:block>
+		</th:block>
+	</th:block>
+
+<div id="parent">
+<div id="hospitalInfo">
+<p class="mSize">[[${hospitalCommand.hospitalCategory }]]</p>
+<p class="LSize">[[${hospitalCommand.hospitalName }]]</p>
+
+<br/><hr>
+<p class="mSize">진료 시간</p>
+<p class="sSize">진료 시간</p>
+
+<br/><hr>
+<p class="mSize">병원 소개</p>
+<p class="sSize">[[${hospitalCommand.hospitalContent }]]</p>
+<p class="sSize">연락처 : [[${hospitalCommand.hospitalPhone }]]</p>
+<p class="sSize">이메일 : [[${hospitalCommand.hospitalEmail }]]</p>
+
+<br/><hr>
+<p class="mSize">위치 정보</p>
+<p class="sSize">[[${hospitalCommand.hospitalAddr }]] [[${hospitalCommand.hospitalAddrDetail }]]</p>
+<div id="map" style="width:100%;height:350px;"></div>
+<script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+	// 마커가 표시될 위치입니다 
+	var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
+	
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition
+	});
+	
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	
+	// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+	// marker.setMap(null);    
+</script>
+
+<br/><hr>
+<p class="mSize">병원 공지사항</p>
+<p class="sSize">[[${hospitalCommand.hospitalNotice }]]</p>
+
+</div>
+
+<div id="reservationInfo">
+<form action="" method="">
+<table width="600" align="center" border="1">
+	<tr>
+		<td>진료실 / 의사 : 
+			<select id="doctorSelection" name="doctorSelection">
+					<option value="제 1 진료실 / 정은선 원장">제 1 진료실 / 정은선 원장</option>
+					<option value="제 2 진료실 / 김민희 원장">제 2 진료실 / 김민희 원장</option>
+			</select>
+		</td>
+	</tr>
+</table>
+
+<br/>
+<table width="600" align="center" border="1">
+	
+		<tr>
+			<td>죽겠어요</td>
+		</tr>
+	
+</table>
+</form>
+</div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
