@@ -93,9 +93,6 @@ a:hover {
 
 <!-- js -->
 <script type="text/javascript">
-function name() {
-	
-}
 </script>
 
 </head>
@@ -104,7 +101,6 @@ function name() {
 	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
 	<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
 </header>
-
 <section>
 	<form action="loginCheck" method="post">
 	<table border=1 align="center">
@@ -114,8 +110,8 @@ function name() {
 			<td><img src="/static/images/hospital.png" width="100" alt="hospitalImg" id="hospitalImg"/></td>
 		</tr>
 		<tr>
-			<td><input type="radio" name="who" checked="checked" value="member"/>일반회원</td>
-			<td><input type="radio" name="who" value="hospital"/>병원회원</td>
+			<td><input type="radio" id="member" name="who" checked="checked" value="member"/>일반회원</td>
+			<td><input type="radio" id="hospital" name="who" value="hospital"/>병원회원</td>
 		</tr>
 		<tr>
 			<td colspan="2"><input type="checkbox" name="saveId" />아이디 저장

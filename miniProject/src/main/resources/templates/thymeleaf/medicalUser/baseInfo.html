@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table border=1 align="center">
+	<tr>
+		<th>병원번호</th>
+		<td>[[${hospitalCommand.hospitalNum}]]</td>
+	</tr>
+	<tr>
+		<th>병원이름</th>
+		<td>[[${hospitalCommand.hospitalName}]]</td>
+	</tr>
+	<tr>
+		<th>병원코드</th>
+		<td>[[${hospitalCommand.hospitalCode}]]</td>
+	</tr>
+  <tr>
+    <th rowspan="3">병원 주소</th>
+    <td colspan="2">[[${hospitalCommand.hospitalPost}]]</td>
+  </tr>
+  <tr>
+    <td colspan="2">[[${hospitalCommand.hospitalAddr}]]</td>
+  </tr>
+  <tr>
+    <td colspan="2">[[${hospitalCommand.hospitalAddrDetail}]]</td>
+  </tr>
+  <tr>
+  	<th>관리자 이메일</th>
+  	<td>[[${hospitalCommand.hospitalEmail}]]</td>
+  </tr>
+  <tr>
+  	<th>관리자 핸드폰 번호</th>
+  	<td>[[${hospitalCommand.hospitalPhone}]]</td>
+  </tr>
+  <tr>
+  	<th>병원 소개</th>
+  	<td>[[${hospitalCommand.hospitalContent}]]</td>
+  </tr>
+  <tr>
+  	<th>병원 카데고리</th>
+  	<td>[[${hospitalCommand.hospitalCategory}]]</td>
+  </tr>
+  <tr>
+	<td colspan=2 align="center"><input type="button" name="baseModify" id="baseModify" value="수정하기" /></td>
+	</tr>
+	</table>
+</body>
+</html>

@@ -17,5 +17,19 @@
 						, HOSPITAL_NOTICE, HOSPITAL_DOCTOR)
 	values(#{hospitalNum}, #{hospitalId}, #{hospitalPw}, #{hospitalName}, #{hospitalCode}, #{hospitalAddr}, #{hospitalAddrDetail}
 			, #{hospitalPost}, #{hospitalEmail}, #{hospitalPhone}, #{hospitalContent}, #{hospitalCategory}, 0, 0)
+
 </insert>
+
+<select id="hospitalSelectOne" resultType="hospital" parameterType="string">
+	select <include refid="hospitalBaseColumns" />
+	from hospital
+	where HOSPITAL_NUM = #{hospitalNum}
+</select>
+
+<select id="selectHospitalNum" parameterType="string" resultType="string">
+	select hospital_num
+	from hospital
+	where hospital_id = #{hospitalId}
+</select>
+
 </mapper>

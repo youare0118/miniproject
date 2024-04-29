@@ -3,6 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    // 회원 탈퇴 버튼 클릭 시
+    $('#out').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/medicalUser/out.html', // 회원 탈퇴 페이지의 URL
+            type: 'GET',
+            success: function(data) {
+                // 성공 시 회원 탈퇴 페이지의 내용으로 section 업데이트
+                $('#section').html(data);
+            }
+        });
+    });
+    
+    // 기본 정보 버튼 클릭 시
+    $('#baseInfo').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/medicalUser/baseInfo.html', // 기본 정보 페이지의 URL
+            type: 'GET',
+            success: function(data) {
+                // 성공 시 기본 정보 페이지의 내용으로 section 업데이트
+                $('#section').html(data);
+            }
+        });
+    });
+    // 진료 정보 버튼 클릭 시
+    $('#treatInfo').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/medicalUser/treatInfo.html', // 기본 정보 페이지의 URL
+            type: 'GET',
+            success: function(data) {
+                // 성공 시 기본 정보 페이지의 내용으로 section 업데이트
+                $('#section').html(data);
+            }
+        });
+    });
+    // 비번 변경 버튼 클릭 시
+    $('#changePw').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/medicalUser/changePw.html', // 기본 정보 페이지의 URL
+            type: 'GET',
+            success: function(data) {
+                // 성공 시 기본 정보 페이지의 내용으로 section 업데이트
+                $('#section').html(data);
+            }
+        });
+    });
+});
+</script>
 <style>
 header:p {
 	text-align: right;
@@ -15,17 +69,221 @@ header {
 #hospitalBtn {
 	background-color: skyblue;
 }
+/* 전체 폼 스타일 */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* 테이블 헤더 스타일 */
+th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+
+/* 테이블 셀 스타일 */
+td {
+    padding: 10px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* 내부 패딩과 경계선을 포함하여 요소의 크기를 정의합니다. */
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* 입력 필드 포커스 스타일 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: dodgerblue;
+}
+
+/* 버튼 스타일 */
+input[type="submit"],
+input[type="button"] {
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #4CAF50; /* hover 시 밝은 색상으로 변경 */
+}
+
+/* 설명 텍스트 스타일 */
+p {
+    font-size: 12px;
+    color: gray;
+}
+
+/* 이메일 입력 스타일 */
+#email1,
+#email2 {
+    width: 45%; /* 이메일 주소와 도메인 입력 필드를 각각의 넓이에 맞게 설정합니다. */
+    display: inline-block;
+}
+
+#emailSelection {
+    width: 50%; /* 이메일 도메인 선택 드롭다운의 넓이를 설정합니다. */
+    margin-top: 5px;
+}
+
+/* 주소 입력 스타일 */
+#sample4_postcode,
+#sample4_roadAddress,
+#hospitalPhone {
+    width: calc(100% - 120px); /* 우편번호 찾기 버튼을 고려하여 입력 필드의 넓이를 조정합니다. */
+}
+
+/* 병원 소개 텍스트 영역 스타일 */
+textarea {
+    resize: vertical; /* 수직으로만 크기 조절이 가능하도록 설정합니다. */
+}
+
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font: 17px 'Nanum Gothic', sans-serif;
+}
+.menu-wrapper a {
+	text-decoration: none;
+	color: #404040;
+}
+
+li{
+	list-style: none;
+}
+
+.menu-wrapper ul li{
+	float: left;
+	width: 25%;
+	height: 100%;
+	line-height: 50px;
+	text-align: center;
+	background: #98E0AD;
+}
+.menu-wrapper ul li a{
+	display: block;
+}
+.menu-wrapper ul li a:hover{
+	background: #138535;
+	color: #fff;
+}
 </style>
 </head>
 <body>
 <header>
 	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
-	<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
+<th:block th:if="${session.auth != null}">
+	<th:block th:if="${session.auth.grade == 'mem'}">
+   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</p>
+	</th:block>
+	<th:block th:if="${session.auth.grade == 'hospital'}">
+   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</p>
+	</th:block>
+</ul>
+</th:block>
+	<th:block th:if="${session.auth == null}">
+   		<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p>
+	</th:block>
 </header>
-<section>
-	<h1>내 병원 정보</h1>
+<nav>
+<a></a>
+	<h1>내 병원 관리 > 병원 기초정보 관리</h1>
 	<hr>
-	
+    <div class="menu-wrapper">
+        <div id="menu">
+            <ul>
+                <li>
+                    <a href="#" id="baseInfo" data-tab="baseInfo" class="tabmenu">병원 기초정보 관리</a>
+                </li>
+                <li>
+                    <a href="#" id="treatInfo" data-tab="treatInfo" class="tabmenu">병원 진료정보 관리</a>
+                </li>
+                <li>
+                    <a href="#" id="changePw" data-tab="changePw" class="tabmenu">비번 변경</a>
+                </li>
+				<li>
+				    <a href="#" id="out" data-tab="out" class="tabmenu">회원 탈퇴</a>
+				</li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<section id="section">
+<table border=1 align="center">
+	<tr>
+		<th>병원번호</th>
+		<td>[[${hospitalCommand.hospitalNum}]]</td>
+	</tr>
+	<tr>
+		<th>병원이름</th>
+		<td>[[${hospitalCommand.hospitalName}]]</td>
+	</tr>
+	<tr>
+		<th>병원코드</th>
+		<td>[[${hospitalCommand.hospitalCode}]]</td>
+	</tr>
+  <tr>
+    <th rowspan="3">병원 주소</th>
+    <td colspan="2">[[${hospitalCommand.hospitalPost}]]</td>
+  </tr>
+  <tr>
+    <td colspan="2">[[${hospitalCommand.hospitalAddr}]]</td>
+  </tr>
+  <tr>
+    <td colspan="2">[[${hospitalCommand.hospitalAddrDetail}]]</td>
+  </tr>
+  <tr>
+  	<th>관리자 이메일</th>
+  	<td>[[${hospitalCommand.hospitalEmail}]]</td>
+  </tr>
+  <tr>
+  	<th>관리자 핸드폰 번호</th>
+  	<td>[[${hospitalCommand.hospitalPhone}]]</td>
+  </tr>
+  <tr>
+  	<th>병원 소개</th>
+  	<td>[[${hospitalCommand.hospitalContent}]]</td>
+  </tr>
+  <tr>
+  	<th>병원 카데고리</th>
+  	<td>[[${hospitalCommand.hospitalCategory}]]</td>
+  </tr>
+  <tr>
+	<td colspan=2 align="center"><input type="button" name="baseModify" id="baseModify" value="수정하기" /></td>
+	</table>
 </section>
 </body>
 </html>

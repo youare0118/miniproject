@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC    
+   "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniProject.mapper.TreatMapper">
+<sql id="treatBaseColumns">
+	HOSPITAL_NUM, TREAT_DATE, TREAT_DOCTOR
+	, START_TIME, END_TIME
+</sql>
+
+<insert id="treatInsert" parameterType="treat">
+	insert into treat(HOSPITAL_NUM, TREAT_DATE, TREAT_DOCTOR
+	, START_TIME, END_TIME)
+		values(#{hospitalNum}, 0, 0, 0, 0)
+</insert>
+
+
+</mapper>

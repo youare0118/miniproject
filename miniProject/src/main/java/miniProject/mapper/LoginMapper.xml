@@ -27,14 +27,16 @@
 </select>
 
 <select id="loginSelect" parameterType="string" resultType="authInfo">
-	select member_id userId, member_pw userPw, member_name userName, 'mem' grade
-			, member_email userEmail, member_email_conf userEmailCheck
-	from member
-	where member_id = #{userId} 
-	union
-	select hospital_id, hospital_pw, hospital_name, 'hospital', hospital_email, 'Y'
-	from hospital
-	where hospital_id = #{userId}
+   select member_id userId, member_pw userPw, member_name userName, 'mem' grade
+         , member_email userEmail, member_email_conf userEmailCheck
+   from member
+   where member_id = #{userId} 
+   union
+   select hospital_id, hospital_pw, hospital_name, 'hospital', hospital_email, 'Y'
+   from hospital
+   where hospital_id = #{userId}
 </select>
+
+
 
 </mapper>

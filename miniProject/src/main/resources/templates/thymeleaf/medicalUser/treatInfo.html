@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    // 회원 탈퇴 버튼 클릭 시
+    $('#treatModify').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/medicalUser/treatModify.html', // 회원 탈퇴 페이지의 URL
+            type: 'GET',
+            success: function(data) {
+                // 성공 시 회원 탈퇴 페이지의 내용으로 section 업데이트
+                $('#section').html(data);
+            }
+        });
+    });
+});
+</script>
+</head>
+<body>
+<table border=1 align="center">
+	<tr>
+		<th>병원번호</th>
+		<td>[[${hospitalCommand.hospitalNum}]]</td>
+	</tr>
+	<tr>
+	<td colspan=2 align="center"><input type="button" name="treatModify" id="treatModify" value="수정하기" /></td>
+	</tr>
+</table>
+</body>
+</html>
