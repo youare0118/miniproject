@@ -49,23 +49,9 @@
    <result column="HOSPITAL_DOCTOR" jdbcType="VARCHAR" property="hospitalDoctor"/>
 </resultMap>
 
-<select id="hospitalSelectList" resultType="hospital" parameterType="startEndPageDTO">
-   select *
-   from(
-   SELECT row_number() over (order by hospital_num) as rn
-           , <include refid="hospitalBaseColumns"/>    
+<select id="hospitalSelectList" resultMap="hospitalResultMap">
+   select <include refid="hospitalBaseColumns"/>
    from hospital
-   <where>
-       <if test="searchWord != null">
-          hospital_name like '%' || #{searchWord} || '%'
-         or hospital_category like '%' || #{searchWord} || '%'
-       </if>
-      </where> )                   
-   where rn between #{startRow} and #{endRow}    
-</select>
-
-<select id="hospitalCount" resultType="integer">
-   select count(*) from hospital
 </select>
 
 </mapper>
