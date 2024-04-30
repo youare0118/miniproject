@@ -16,10 +16,10 @@
 	, TUESDAY_START, TUESDAY_END, WEDNESDAY_START, WEDNESDAY_END
 	, THURSDAY_START, THURSDAY_END, FRIDAY_START, FRIDAY_END
 	, SATURDAY_START, SATURDAY_END, SUNDAY_START, SUNDAY_END
-	, HOLIDAY_START, HOLIDAY_END)
-	values(#{hospitalNum}, #{treatDoctor}, #{monday_start}, #{monday_end}, #{tuesday_start}, #{tuesday_end}
-			, #{wednesday_start}, #{wednesday_end}, #{thursday_start}, #{thursday_end}, #{friday_start}, #{friday_end}
-			, #{saturday_start}, #{saturday_end}, #{sunday_start}, #{sunday_end}, #{holiday_start}, #{holiday_end})
+	, HOLIDAY_START, holiday_end)
+	values(#{hospitalNum}, #{treatDoctor}, #{mondayStart}, #{mondayEnd}, #{tuesdayStart}, #{tuesdayEnd}
+			, #{wednesdayStart}, #{wednesdayEnd}, #{thursdayStart}, #{thursdayEnd}, #{fridayStart}, #{fridayEnd}
+			, #{saturdayStart}, #{saturdayEnd}, #{sundayStart}, #{sundayEnd}, #{holidayStart}, #{holidayEnd})
 </insert>
 
 
