@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<section>
+<table border=1 align="center">
+	<tr>
+		<th>병원번호</th>
+		<td><input type=text name="hospitalNum" th:value="${hospitalCommand.hospitalNum}" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>병원이름</th>
+		<td><input type=text name="hospitalName" th:value="${hospitalCommand.hospitalName}" /></td>
+	</tr>
+	<tr>
+		<th>병원코드</th>
+		<td><input type=text name="hospitalCode" th:value="${hospitalCommand.hospitalCode}" /></td>
+	</tr>
+  <tr>
+    <th rowspan="3">병원 주소</th>
+    <td colspan="2"><input type="text" name="hospitalPost" id="sample4_postcode" th:value="${hospitalCommand.hospitalPost}" placeholder="우편번호" />
+    				<input type="button" onclick="execDaumPostcode();" value="우편번호 찾기" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="text" name="hospitalAddr" id="sample4_roadAddress" placeholder="도로명주소" th:value="${hospitalCommand.hospitalAddr}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="text" name="hospitalAddrDetail" th:value="${hospitalCommand.hospitalAddrDetail}" placeholder="상세주소" /></td>
+  </tr>
+  <tr>
+  	<th>관리자 이메일</th>
+  	<td></td>
+  </tr>
+  <tr>
+  	<th>관리자 핸드폰 번호</th>
+  	<td></td>
+  </tr>
+  <tr>
+  	<th>병원 소개</th>
+  	<td></td>
+  </tr>
+  <tr>
+  	<th>병원 카데고리</th>
+  	<td></td>
+  </tr>
+  <tr>
+	<td colspan=2 style="text-align: center;"><input type="button" name="baseModify" id="baseModify" value="수정하기" /></td>
+	</tr>
+	</table>
+</section>
+</body>
+</html>

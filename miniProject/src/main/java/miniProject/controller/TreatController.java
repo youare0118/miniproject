@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import miniProject.command.HospitalCommand;
+import miniProject.command.TreatCommand;
 import miniProject.service.hospital.HospitalDetailService;
+import miniProject.service.treat.TreatDetailService;
 
 @Controller
 @RequestMapping("medicalUser")

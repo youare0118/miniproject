@@ -57,19 +57,32 @@ public class medicalUserController {
 	}
 	
 	//ajax로 웹페이지 업데이트
+	
+	//회원탈퇴 ajax
     @GetMapping("out.html")
     public String out(TreatCommand treatCommand, Model model, HttpSession session) {
         return "thymeleaf/medicalUser/out";
     }
+    
+    //병원 기본정보 ajax
     @GetMapping("baseInfo.html")
     public String baseInfo(Model model, HttpSession session) {
     	hospitalDetailService.execute(model, session);
         return "thymeleaf/medicalUser/baseInfo";
     }
+    
+    //비번 변경 ajax
     @GetMapping("changePw.html")
     public String changePw(Model model, HttpSession session) {
     	hospitalDetailService.execute(model, session);
         return "thymeleaf/medicalUser/changePw";
+    }
+    
+	//기본정보 수정 ajax
+    @GetMapping("baseModify.html")
+    public String baseModify(HospitalCommand hospitalCommand, Model model, HttpSession session) {
+    	hospitalDetailService.execute(model, session);
+        return "thymeleaf/medicalUser/baseModify";
     }
 
 }

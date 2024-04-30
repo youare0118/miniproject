@@ -4,32 +4,32 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="miniProject.mapper.HospitalMapper">
 <sql id="hospitalBaseColumns">
-	HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
-	, HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
-	, HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
-	, HOSPITAL_NOTICE, HOSPITAL_DOCTOR
+   HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
+   , HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
+   , HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
+   , HOSPITAL_NOTICE, HOSPITAL_DOCTOR
 </sql>
 
 <insert id="hospitalInsert" parameterType="hospital">
-	insert into hospital(HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
-						, HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
-						, HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
-						, HOSPITAL_NOTICE, HOSPITAL_DOCTOR)
-	values(#{hospitalNum}, #{hospitalId}, #{hospitalPw}, #{hospitalName}, #{hospitalCode}, #{hospitalAddr}, #{hospitalAddrDetail}
-			, #{hospitalPost}, #{hospitalEmail}, #{hospitalPhone}, #{hospitalContent}, #{hospitalCategory}, 0, 0)
+   insert into hospital(HOSPITAL_NUM, HOSPITAL_ID, HOSPITAL_PW, HOSPITAL_NAME, HOSPITAL_CODE
+                  , HOSPITAL_ADDR, HOSPITAL_ADDR_DETAIL, HOSPITAL_POST, HOSPITAL_EMAIL
+                  , HOSPITAL_PHONE, HOSPITAL_CONTENT, HOSPITAL_CATEGORY
+                  , HOSPITAL_NOTICE, HOSPITAL_DOCTOR)
+   values(#{hospitalNum}, #{hospitalId}, #{hospitalPw}, #{hospitalName}, #{hospitalCode}, #{hospitalAddr}, #{hospitalAddrDetail}
+         , #{hospitalPost}, #{hospitalEmail}, #{hospitalPhone}, #{hospitalContent}, #{hospitalCategory}, 0, 0)
 
 </insert>
 
 <select id="hospitalSelectOne" resultType="hospital" parameterType="string">
-	select <include refid="hospitalBaseColumns" />
-	from hospital
-	where HOSPITAL_NUM = #{hospitalNum}
+   select <include refid="hospitalBaseColumns" />
+   from hospital
+   where HOSPITAL_NUM = #{hospitalNum}
 </select>
 
 <select id="selectHospitalNum" parameterType="string" resultType="string">
-	select hospital_num
-	from hospital
-	where hospital_id = #{hospitalId}
+   select hospital_num
+   from hospital
+   where hospital_id = #{hospitalId}
 </select>
 
 <resultMap type="hospital" id="hospitalResultMap">
@@ -49,9 +49,23 @@
    <result column="HOSPITAL_DOCTOR" jdbcType="VARCHAR" property="hospitalDoctor"/>
 </resultMap>
 
-<select id="hospitalSelectList" resultMap="hospitalResultMap">
-   select <include refid="hospitalBaseColumns"/>
+<select id="hospitalSelectList" resultType="hospital" parameterType="startEndPageDTO">
+   select *
+   from(
+   SELECT row_number() over (order by hospital_num) as rn
+           , <include refid="hospitalBaseColumns"/>    
    from hospital
+   <where>
+       <if test="searchWord != null">
+          hospital_name like '%' || #{searchWord} || '%'
+         or hospital_category like '%' || #{searchWord} || '%'
+       </if>
+      </where> )                   
+   where rn between #{startRow} and #{endRow}    
+</select>
+
+<select id="hospitalCount" resultType="integer">
+   select count(*) from hospital
 </select>
 
 </mapper>
