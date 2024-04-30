@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="main.css">
 <meta charset="UTF-8">
 <title>메디북 : 병원예약사이트</title>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee54e408fd253fbd47664b71010d6e40&libraries=services,clusterer,drawing"></script>
@@ -165,6 +166,26 @@ header {
         		<td><button type="button" th:attr="onclick=|btnGetDirections('${dto.hospitalName}')|">길찾기</button></td>
         		<td><button type="button" th:attr="onclick=|btnReserve('${dto.hospitalNum}')|">예약하기</button></td>
       		</tr>
+      		
+      		
+      		<tr></tr>
+			<tr><th colspan="6">
+					<span th:if="${page <= 1}">[이전]</span>
+					<span th:if="${page > 1}">
+						<a th:href="|?page=${page-1}&searchWord=${searchWord}|">[이전]</a>
+					</span>
+		
+					<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+						<a th:href="|?page=${i}&searchWord=${searchWord}|">[[${i}]]</a>
+					</th:block>
+			
+					<span th:if="${page >= maxPage}">[다음]</span>
+					<span th:if="${page < maxPage}">
+						<a th:href="|?page=${page+1}&searchWord=${searchWord}|">[다음]</a>
+					</span>
+				</th>
+			</tr>
+			
   	 	</table>
 	</div>
    
