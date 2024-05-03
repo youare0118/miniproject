@@ -8,21 +8,132 @@ function btnUpdate(memberNum){
 	location.href='myPageUpdate?memberNum=' + memberNum;
 }
 </script>
+<style>
+header:p {
+	text-align: right;
+}
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font: 17px 'Nanum Gothic', sans-serif;
+}
+.menu-wrapper a {
+	text-decoration: none;
+	color: #404040;
+}
+
+li{
+	list-style: none;
+}
+
+.menu-wrapper ul li{
+	float: left;
+	width: 20%;
+	height: 100%;
+	line-height: 50px;
+	text-align: center;
+	background: #98E0AD;
+}
+.menu-wrapper ul li a{
+	display: block;
+}
+.menu-wrapper ul li a:hover{
+	background: #138535;
+	color: #fff;
+}
+
+
+  table {
+    border-collapse: collapse;
+    width: 80%; /* 테이블 너비 설정 */
+    margin: 20px auto; /* 테이블 가운데 정렬 */
+  }
+  th, td {
+    border: 1px solid #ccc; /* 테두리 설정 */
+    padding: 12px; /* 셀 패딩 조정 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+  }
+  th {
+    background-color: #f2f2f2; /* 헤더 배경색 설정 */
+    font-size: 16px; /* 헤더 셀 폰트 크기 조절 */
+    width: 200px; /* 헤더 셀 너비 조절 */
+    text-align: center;
+  }
+  td[colspan="2"] {
+    text-align: left; /* colspan이 있는 셀 가운데 정렬 */
+  }
+  tr:nth-child(even) {
+    background-color: #fff6f6; /* 짝수 행 배경색 설정 */
+  }
+  /* 버튼 스타일 */
+button[type="submit"],
+button[type="button"] {
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #4CAF50; /* hover 시 밝은 색상으로 변경 */
+}
+
+</style>
 </head>
 <body>
+<header>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
+<th:block th:if="${session.auth != null}">
+	<th:block th:if="${session.auth.grade == 'mem'}">
+   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</a></p>
+	</th:block>
+	<th:block th:if="${session.auth.grade == 'hospital'}">
+   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</p>
+	</th:block>
+</ul>
+</th:block>
+	<th:block th:if="${session.auth == null}">
+   		<p><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p>
+	</th:block><br>
 
-<h3 align="center">마이페이지 > 내 정보</h3><br/>
+</header>
+<nav>
+    <div class="menu-wrapper">
+        <div id="menu">
+            <ul>
+                <li>
+                    <a href="myPageReserve" id="myPageReserve" data-tab="myPageReserve" class="tabmenu">예약내역</a>
+                </li>
+                <li>
+                    <a href="myPageWish" id="myPageWish" data-tab="myPageWish" class="tabmenu">즐겨찾기</a>
+                </li>
+                <li>
+                    <a href="myPageDefalt" id="myPageDefalt" data-tab="myPageDefalt" class="tabmenu">내 정보</a>
+                </li>
+				<li>
+				    <a href="myPageNewPw" id="myPageNewPw" data-tab="myPageNewPw" class="tabmenu">비밀번호 변경</a>
+				</li>
+				<li>
+				    <a href="myPageDrop" id="myPageDrop" data-tab="myPageDrop" class="tabmenu">회원탈퇴</a>
+				</li>
 
-<table width="600" border="1" align="center">
-	<tr><th align="center">
-			<a href="myPageReserve">예약내역</a> |
-			<a href="myPageWish">즐겨찾기</a> |
-			<a href="myPageDefalt">내 정보</a> |
-			<a href="myPageNewPw">비밀번호변경</a> |
-			<a href="myPageDrop">회원탈퇴</a>
-		</th>
-	</tr>
-</table>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h2>내 정보 관리 > 내 정보</h2>
 
 <br/>
 	<table border = "1" width ="600" align="center">
