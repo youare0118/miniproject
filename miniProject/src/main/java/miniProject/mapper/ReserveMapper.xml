@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC    
+   "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="miniProject.mapper.ReserveMapper">
+<sql id="reserveBaseColumns">
+	RESERVE_NUM, HOSPITAL_NUM, MEMBER_NUM, MEMBER_NAME
+	, RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE
+</sql>
+
+<insert id="reserveInsert" parameterType="reserve">
+	insert into reserve1(RESERVE_NUM, HOSPITAL_NUM, MEMBER_NUM, MEMBER_NAME, 
+						RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE, DOCTOR)
+	values(#{reserveNum}, #{hospitalNum}, #{memberNum}, #{memberName}
+			, #{reserveDate}, #{reserveContent}, '예약완료', #{doctor})
+	
+</insert>
+</mapper>

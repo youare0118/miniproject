@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+function moveReserveList(){
+	location.href = "/myPage/myPageReserve";
+}
+</script>
+<style>
+/* 이외 */
+header:p {
+   text-align: right;
+}
+header {
+   display: flex;
+   justify-content: space-between; 
+   align-items: center;
+}
+
+.one {
+	text-align: center;
+}
+
+.one p {
+    font-size: 20px; /* 폰트 크기 조절 */
+}
+
+/* 버튼 스타일 */
+input[type="submit"],
+input[type="button"] {
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #4CAF50; /* hover 시 밝은 색상으로 변경 */
+}
+</style>
+</head>
+<body>
+<header>
+	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
+	<th:block th:if="${session.auth != null}" >
+		<th:block th:if="${session.auth.grade == 'mem'}">
+	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</a></p>
+		</th:block>
+		<th:block th:if="${session.auth.grade == 'hospital'}">
+	   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</a></p>
+		</th:block>
+	</ul>
+	</th:block>
+	<th:block th:if="${session.auth == null}">
+   		<p style="margin: 0 50px 0 0;"><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
+	</th:block>
+
+</header>
+<section>
+<div class="one">
+	<img src="/static/images/check.png" width="50" height="50"/><br>
+	<p>예약이 완료되었습니다.</p>
+	<input type="button" onclick="moveReserveList()" value="예약내역" />
+</div>
+</section>
+</body>
+</html>
