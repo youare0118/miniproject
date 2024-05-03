@@ -97,6 +97,35 @@ header {
     box-sizing: border-box;
 }
 
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 300px;
+        margin-right: 10px;
+    }
+
+    .search-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .search-button:hover {
+        background-color: #0056b3;
+    }
+
 </style>
 </head>
 <body>
@@ -104,7 +133,7 @@ header {
 	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
 	<th:block th:if="${session.auth != null}" >
 		<th:block th:if="${session.auth.grade == 'mem'}">
-	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</p>
+	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</a></p>
 		</th:block>
 		<th:block th:if="${session.auth.grade == 'hospital'}">
 	   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</a></p>
@@ -119,9 +148,6 @@ header {
 
 	<th:block th:if="${session.auth != null}" >
 		<th:block th:if="${session.auth.grade == 'mem'}">
-			<ul>
-				<li><a href="myPage/myPageDefalt">마이페이지</a></li>
-			</ul>
 	
 	        <!-- 관리자만 사용 가능 관리자 ID : medibook / PW:medibook00@ -->
 			<th:block th:if="${session.auth.userId == 'medibook'}">
@@ -132,16 +158,18 @@ header {
 			</th:block>
 		</th:block>
 	</th:block>
-	
+	<br><br>
 <table width="600" align="center" style="vertical-align: middle;">
+	<div class="search-container">
 	<form action="" method="get">
 		<tr>
 			<td>※ 병원 찾기 :
-					<input type="search" name="searchWord" size="60" th:value=${searchWord}/>
-					<input type="submit" value="검색">	
+					<input type="search" class="search-input" name="searchWord" size="60" th:value=${searchWord} placeholder=""/>
+					<input type="submit" class="search-button" value="검색">	
 			</td>	
 		</tr>
 	</form>
+	</div>
 </table>
 
 <br/>
