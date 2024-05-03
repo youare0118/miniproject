@@ -4,6 +4,137 @@
 <meta charset="UTF-8">
 <title>메디북 : 예약하기</title>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee54e408fd253fbd47664b71010d6e40&libraries=services,clusterer,drawing"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+function prevMonth(date) {
+    var target = new Date(date);
+    target.setDate(1);
+    target.setMonth(target.getMonth() - 1);
+
+    return getYmd(target);
+}
+
+function nextMonth(date) {
+    var target = new Date(date);
+    target.setDate(1);
+    target.setMonth(target.getMonth() + 1);
+
+    return getYmd(target);
+}
+
+function getYmd(target) {
+    // IE에서 날짜 문자열에 0이 없으면 인식 못함
+    var month = ('0' + (target.getMonth() + 1)).slice(-2);
+    return [target.getFullYear(), month, '01'].join('-');
+}
+
+function fullDays(date) {
+    var target = new Date(date);
+    var year = target.getFullYear();
+    var month = target.getMonth();
+
+    var firstWeekDay = new Date(year, month, 1).getDay();
+    var thisDays = new Date(year, month + 1, 0).getDate();
+
+    // 월 표시 달력이 가지는 셀 갯수는 3가지 가운데 하나이다.
+    // var cell = [28, 35, 42].filter(n => n >= (firstWeekDay + thisDays)).shift();
+    var cell = [28, 35, 42].filter(function (n) {
+            return n >= (firstWeekDay + thisDays);
+        }).shift();
+
+    // 셀 초기화, IE에서 Array.fill()을 지원하지 않아서 변경
+    // var days = new Array(cell).fill({date: '', dayNum: '', today: false});
+    var days = []
+    for (var i = 0; i < cell; i++) {
+        days[i] = {
+            date: '',
+            dayNum: '',
+            today: false
+        };
+    }
+    
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var inDate;
+    for (var index = firstWeekDay, i = 1; i <= thisDays; index++, i++) {
+        inDate = new Date(year, month, i);
+        days[index] = {
+            date: i,
+            dayNum: inDate.getDay(),
+            today: (inDate.getTime() === today.getTime())
+        };
+    }
+
+    return days;
+}
+function drawMonth(date) {
+    $('#month-this').text(date.substring(0, 7).replace('-', '.'));
+    $('#month-prev').data('ym', prevMonth(date));
+    $('#month-next').data('ym', nextMonth(date));
+
+    $('#tbl-month').empty();
+
+    var td = '<td class="__REST__ __TODAY__"><a __HREF__>__DATE__</a></td>';
+    var href = '/depart/schedule?date=' + date.substring(0, 8);
+    var hasEvent;
+    var tdClass;
+    var week = null;
+    var days = fullDays(date);
+    for (var i = 0, length = days.length; i < length; i += 7) {
+        // 전체 셀을 주단위로 잘라서 사용
+        week = days.slice(i, i + 7);
+        
+        var $tr = $('<tr></tr>');
+        week.forEach(function (obj, index) {
+            // 매주 수요일에 이벤트가 있다고 가정
+            tdClass = (index === 0)? 'sun': '';
+            tdClass = (index === 6)? 'sat': tdClass;
+
+            
+            $tr.append(td.replace('__REST__', tdClass)
+                        .replace('__TODAY__', (obj['today'])? 'today': '')
+                        .replace('__HREF__', (hasEvent)? 'href="'+ href + ('0' + obj['date']).slice(-2) +'"': '')
+                        .replace('__DATE__', obj['date']));
+        });
+        $('#tbl-month').append($tr);
+    }
+}
+
+$(function () {
+    var date = (new Date()).toISOString().substring(0, 10);
+    drawMonth(date);
+
+    $('.month-move').on('click', function (e) {
+        e.preventDefault();
+
+        drawMonth($(this).data('ym'));
+    });
+});
+
+// 캘린더의 각 날짜를 클릭했을 때 실행될 함수
+function selectDate(year, month, day) {
+    // 선택한 날짜를 YYYY-MM-DD 형식으로 변환
+    var selectedDate = year + '-' + month + '-' + day;
+
+    // reserveDate input에 선택한 날짜를 채움
+    document.getElementById('reserveDate').value = selectedDate;
+}
+
+// 각 날짜를 클릭했을 때 selectDate 함수를 호출하는 이벤트 리스너 등록
+document.addEventListener('DOMContentLoaded', function () {
+    var dateCells = document.querySelectorAll('.date-month td:not(.disabled)');
+
+    dateCells.forEach(function (cell) {
+        cell.addEventListener('click', function () {
+            var year = document.getElementById('month-this').innerText.split('.')[0];
+            var month = document.getElementById('month-this').innerText.split('.')[1];
+            var day = this.innerText;
+
+            selectDate(year, month, day);
+        });
+    });
+});
+</script>
 </head>
 
 <!-- css -->
@@ -60,6 +191,165 @@ header {
 	color:black;
 }
 
+
+<!--달력css-->
+
+/* 기본 스타일 */
+.date-wrap {
+    font-family: Arial, sans-serif;
+    max-width: 300px; /* 캘린더 너비 지정 */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.date-month {
+    margin-bottom: 20px;
+}
+
+/* 월 이동 버튼 스타일 */
+.button_wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.month-move {
+    background-color: lightgreen;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table.date-month {
+    width: 100%;
+}
+
+table.date-month th,
+table.date-month td {
+    padding: 10px;
+}
+
+/* 요일 스타일 */
+table.date-month th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* 날짜 스타일 */
+td {
+    border: 1px solid #ccc;
+}
+
+td a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px;
+}
+td a:hover,
+td a:active {
+	background-color: lightgreen;
+}
+
+.today {
+    background-color: #ffcccb; /* 오늘 날짜 배경색 */
+}
+
+.sun,
+.sat {
+    background-color: #f0f0f0; /* 일요일, 토요일 배경색 */
+}
+
+.button_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* 버튼과 년월 사이의 간격 조절 */
+}
+
+#month-this {
+    font-size: 18px; /* 년월 표시의 크기 조절 */
+}
+
+
+
+
+
+/* 전체 폼 스타일 */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* 테이블 헤더 스타일 */
+th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+
+/* 테이블 셀 스타일 */
+td {
+    padding: 10px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* 내부 패딩과 경계선을 포함하여 요소의 크기를 정의합니다. */
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* 입력 필드 포커스 스타일 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: dodgerblue;
+}
+
+/* 버튼 스타일 */
+input[type="submit"],
+input[type="button"] {
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #4CAF50; /* hover 시 밝은 색상으로 변경 */
+}
+
+/* 병원 소개 텍스트 영역 스타일 */
+textarea {
+    resize: vertical; /* 수직으로만 크기 조절이 가능하도록 설정합니다. */
+}
 </style>
 
 <body>
@@ -98,6 +388,7 @@ header {
 
 <div id="parent">
 <div id="hospitalInfo">
+<input type="hidden" id="hospitalNum" name="hospitalNum" th:value="${hospitalCommand.hospitalNum}"/>
 <p class="mSize">[[${hospitalCommand.hospitalCategory }]]</p>
 <p class="LSize">[[${hospitalCommand.hospitalName }]]</p>
 
@@ -176,11 +467,12 @@ header {
 </div>
 
 <div id="reservationInfo">
-<form action="" method="">
+<form action="reserveCommit" method="post">
 <table width="600" align="center" border="1">
 	<tr>
+		<input type="hidden" id="hospitalNum" name="hospitalNum" th:value="${hospitalCommand.hospitalNum}"/>
 		<td>진료실 / 의사 : 
-			<select id="doctorSelection" name="doctorSelection">
+			<select id="doctor" name="doctor">
 					<option value="제 1 진료실 / 정은선 원장">제 1 진료실 / 정은선 원장</option>
 					<option value="제 2 진료실 / 김민희 원장">제 2 진료실 / 김민희 원장</option>
 			</select>
@@ -189,75 +481,75 @@ header {
 </table>
 
 <br/>
-<table width="600" align="center" border="1">
 
-	<!-- 달력 -->
-	<!-- <div class="wrapper">
-    <header>
-        <div class="nav">
-          <button class="material-icons"> chevron_left </button>
-          <p class="current-date">September 2022</p>
-          <button class="material-icons"> chevron_right </span>
-        </div>
-      </header>
-      <div class="calendar">
-        <ul class="weeks">
-          <li>Sun</li>
-          <li>Mon</li>
-          <li>Tue</li>
-          <li>Wed</li>
-          <li>Thu</li>
-          <li>Fri</li>
-          <li>Sat</li>
-        </ul>
-        <ul class="days">
-          <li class="inactive">27</li>
-          <li class="inactive">28</li>
-          <li class="inactive">29</li>
-          <li class="inactive">30</li>
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
-          <li>6</li>
-          <li>7</li>
-          <li>8</li>
-          <li>9</li>
-          <li>10</li>
-          <li>11</li>
-          <li>12</li>
-          <li>13</li>
-          <li>14</li>
-          <li>15</li>
-          <li>16</li>
-          <li>17</li>
-          <li>18</li>
-          <li>19</li>
-          <li>20</li>
-          <li>21</li>
-          <li>22</li>
-          <li>23</li>
-          <li>24</li>
-          <li>25</li>
-          <li>26</li>
-          <li>27</li>
-          <li>28</li>
-          <li>29</li>
-          <li>30</li>
-          <li>31</li>
-        </ul>
-      </div>
-    </div> -->
-		<tr>
-			<td>죽겠어요</td>
-		</tr>
-	
+<div class="date-wrap">
+    <div class="button_wrap">
+        <button type="button" id="month-prev" class="month-move" data-ym="2022-04-01"> < </button>
+        <span id="month-this">2022.05</span>
+        <button type="button" id="month-next" class="month-move" data-ym="2022-06-01"> > </button>
+    </div>
+    <table class="date-month">
+        <thead>
+            <tr>
+                <th>일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
+            </tr>
+        </thead>
+        <tbody id="tbl-month">
+            <tr>
+                <td class="sun"></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class="today"></td>
+                <td class=""></td>
+                <td class="sat"></td>
+            </tr>
+            <!-- 행 반복 -->
+            <tr>
+                <td class="sun"></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class=""></td>
+                <td class="sat"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<table border=1 align="center">
+	<tr>
+		<input type="hidden" id="reserveNum" name="reserveNum" th:value="${reserveCommand.reserveNum}" />
+		<th>진료 날짜</th>
+		<td><input type="text" id="reserveDate" name="reserveDate" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>진료 받으실 분</th>
+		<input type="hidden" id="memberNum" name="memberNum" th:value="${memberCommand.memberNum}"/>
+		<input type="hidden" id="memberName" name="memberName" th:value="${memberCommand.memberName}"/>
+		<td>[[${memberCommand.memberName}]]</td>
+	</tr>
+	<tr>
+		<th>주민번호 뒷자리</th>
+		<td>주민번호 뒷자리를 입력해주세요 : <input type=text name="checkUser" id="checkUser" /></td>
+	</tr>
+	<tr>
+		<th>증상</th>
+		<td><textarea rows="10" cols="50" name="reserveContent"></textarea></td>
+	</tr>
 </table>
+		<input type="submit" value="예약하기" />
 </form>
-</div>
-</div>
 
+</div>
+</div>
 </body>
 </html>
 
