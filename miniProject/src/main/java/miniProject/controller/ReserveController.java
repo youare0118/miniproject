@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import miniProject.command.HospitalCommand;
 import miniProject.command.MemberCommand;
 import miniProject.command.ReserveCommand;
+import miniProject.domain.AuthInfoDTO;
+import miniProject.domain.MemberDTO;
 import miniProject.service.member.MemberDetailService;
 import miniProject.service.myPage.MemberInfoService;
 import miniProject.service.reserve.HospitalInfoService;
@@ -38,10 +40,15 @@ public class ReserveController {
 	
 	@GetMapping("reservation/{hospitalNum}")
 	public String reservationPage(@PathVariable("hospitalNum") String hospitalNum, HttpSession session, Model model){
+		
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		if(auth == null) {
+			return "thymeleaf/login/login";
+		}
 		reserveAutoNumService.execute(model);
 		hospitalInfoService.execute(hospitalNum, model);
 		memberInfoService.execute(session, model);
-		treatTimeSetService.execute("hos100001", model);
+		treatTimeSetService.execute(hospitalNum, model);
 		return "thymeleaf/reserve/reservationPage";
 	}
 	@PostMapping("reservation/reserveCommit")

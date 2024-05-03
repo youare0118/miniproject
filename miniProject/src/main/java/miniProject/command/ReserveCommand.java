@@ -15,4 +15,5 @@ public class ReserveCommand {
 	String reserveContent;
 	String reserveState;
 	String doctor;
+	String reserveTime;
 }

@@ -112,43 +112,6 @@ $(function () {
 
         drawMonth($(this).data('ym'));
     });
-    
- 	// 캘린더를 눌렀을때 발생하는 이벤트로하여금 해당 요일을 돌려받아 값에 포함시켜야함
-	$("#cal").click(function(){
-		var day = 1;  // 0:일요일 ~ 6:토요일 경우
-		var dayStart; //시작
-		var dayEnd;   //끝
-		
-		if(day == 0){
-			dayStart = document.getElementById('sundayStart').value;
-			dayEnd = document.getElementById('sundayEnd').value;
-		}else if(day == 1){
-			dayStart = document.getElementById('mondayStart').value;
-			dayEnd = document.getElementById('mondayEnd').value;
-		}else if(day == 2){
-			dayStart = document.getElementById('tuesdayStart').value;
-			dayEnd = document.getElementById('tuesdayEnd').value;
-		}else if(day == 3){
-			dayStart = document.getElementById('wednesdayStart').value;
-			dayEnd = document.getElementById('wednesdayEnd').value;
-		}else if(day == 4){
-			dayStart = document.getElementById('thursdayStart').value;
-			dayEnd = document.getElementById('thursdayEnd').value;
-		}else if(day == 5){
-			dayStart = document.getElementById('fridayStart').value;
-			dayEnd = document.getElementById('fridayEnd').value;
-		}else if(day == 6){
-			dayStart = document.getElementById('saturdayStart').value;
-			dayEnd = document.getElementById('saturdayEnd').value;
-		}else{
-			dayStart = document.getElementById('holidayStart').value;
-			dayEnd = document.getElementById('holidayEnd').value;
-		}
-		
-		var startTime = strTime(dayStart);
-		var endTime = strTime(dayEnd);
-		possibleTime(startTime, endTime);
-	})
 });
 
 /* reserve : 선택된 시간 반환 */
@@ -163,9 +126,9 @@ function updateSelect(selectedId) {
     var selectedValue = document.getElementById(selectedId).value;
     var pTag = document.getElementById("reserveTime");
     if(selectedValue != "none"){
-    	pTag.innerText = selectedId.substr(9) + ":" + selectedValue;
+    	pTag.value = selectedId.substr(9) + ":" + selectedValue;
     }else{
-        pTag.innerText = "예약시간을 선택해주세요. (예약시간을 엄수해주시기 바랍니다)";
+        pTag.value = "";
     }
 }
 
@@ -205,6 +168,42 @@ function selectDate(year, month, day) {
     document.getElementById('reserveDate').value = selectedDate;
 }
 
+// 선택한 날짜에 따라 시간 설정 변경
+function tTableSet(day){
+	var dayStart; //시작
+	var dayEnd;   //끝
+	
+	if(day == '일'){
+		dayStart = document.getElementById('sundayStart').value;
+		dayEnd = document.getElementById('sundayEnd').value;
+	}else if(day == '월'){
+		dayStart = document.getElementById('mondayStart').value;
+		dayEnd = document.getElementById('mondayEnd').value;
+	}else if(day == '화'){
+		dayStart = document.getElementById('tuesdayStart').value;
+		dayEnd = document.getElementById('tuesdayEnd').value;
+	}else if(day == '수'){
+		dayStart = document.getElementById('wednesdayStart').value;
+		dayEnd = document.getElementById('wednesdayEnd').value;
+	}else if(day == '목'){
+		dayStart = document.getElementById('thursdayStart').value;
+		dayEnd = document.getElementById('thursdayEnd').value;
+	}else if(day == '금'){
+		dayStart = document.getElementById('fridayStart').value;
+		dayEnd = document.getElementById('fridayEnd').value;
+	}else if(day == '토'){
+		dayStart = document.getElementById('saturdayStart').value;
+		dayEnd = document.getElementById('saturdayEnd').value;
+	}else{
+		dayStart = document.getElementById('holidayStart').value;
+		dayEnd = document.getElementById('holidayEnd').value;
+	}
+	
+	var startTime = strTime(dayStart);
+	var endTime = strTime(dayEnd);
+	possibleTime(startTime, endTime);
+}
+
 // 각 날짜를 클릭했을 때 selectDate 함수를 호출하는 이벤트 리스너 등록
 document.addEventListener('DOMContentLoaded', function () {
     var dateCells = document.querySelectorAll('.date-month td:not(.disabled)');
@@ -214,46 +213,28 @@ document.addEventListener('DOMContentLoaded', function () {
             var year = document.getElementById('month-this').innerText.split('.')[0];
             var month = document.getElementById('month-this').innerText.split('.')[1];
             var day = this.innerText;
+            
+         	// HTML 요소 가져오기
+            const dateCells = document.querySelectorAll('.date-month td');
+
+         	// 클릭된 셀의 텍스트 콘텐츠 가져오기 (날짜)
+            const clickedDate = this.textContent.trim();
+
+            // 클릭된 날짜의 요일 가져오기
+            const daysOfWeek = ['토','일','월', '화', '수', '목', '금'];
+            const clickedDayIndex = (this.cellIndex + 1) % 7; // 요일 인덱스 계산
+            const clickedDay = daysOfWeek[clickedDayIndex];
+
+            // input 창에 요일 표시
+            document.getElementById('selected-day').value = clickedDay;
 
             selectDate(year, month, day);
-            
-         // 캘린더를 눌렀을때 발생하는 이벤트로하여금 해당 요일을 돌려받아 값에 포함시켜야함
-            var day = 1;  // 0:일요일 ~ 6:토요일 경우
-        	var dayStart; //시작
-        	var dayEnd;   //끝
-        	
-        	if(day == 0){
-        		dayStart = document.getElementById('sundayStart').value;
-        		dayEnd = document.getElementById('sundayEnd').value;
-        	}else if(day == 1){
-        		dayStart = document.getElementById('mondayStart').value;
-        		dayEnd = document.getElementById('mondayEnd').value;
-        	}else if(day == 2){
-        		dayStart = document.getElementById('tuesdayStart').value;
-        		dayEnd = document.getElementById('tuesdayEnd').value;
-        	}else if(day == 3){
-        		dayStart = document.getElementById('wednesdayStart').value;
-        		dayEnd = document.getElementById('wednesdayEnd').value;
-        	}else if(day == 4){
-        		dayStart = document.getElementById('thursdayStart').value;
-        		dayEnd = document.getElementById('thursdayEnd').value;
-        	}else if(day == 5){
-        		dayStart = document.getElementById('fridayStart').value;
-        		dayEnd = document.getElementById('fridayEnd').value;
-        	}else if(day == 6){
-        		dayStart = document.getElementById('saturdayStart').value;
-        		dayEnd = document.getElementById('saturdayEnd').value;
-        	}else{
-        		dayStart = document.getElementById('holidayStart').value;
-        		dayEnd = document.getElementById('holidayEnd').value;
-        	}
-        	
-        	var startTime = strTime(dayStart);
-        	var endTime = strTime(dayEnd);
-        	possibleTime(startTime, endTime);
+            tTableSet(clickedDay);
         });
     });
 });
+
+
 </script>
 </head>
 
@@ -573,14 +554,11 @@ textarea {
 		<input type="hidden" id="hospitalNum" name="hospitalNum" th:value="${hospitalCommand.hospitalNum}"/>
 		<td>진료실 / 의사 : 
 			<select id="doctor" name="doctor">
-					<option value="제 1 진료실 / 정은선 원장">제 1 진료실 / 정은선 원장</option>
-					<option value="제 2 진료실 / 김민희 원장">제 2 진료실 / 김민희 원장</option>
+					<option th:value="${treatCommand.treatDoctor}">[[${treatCommand.treatDoctor}]]</option>
 			</select>
 		</td>
 	</tr>
 </table>
-
-<br/>
 
 <div class="date-wrap">
     <div class="button_wrap">
@@ -644,8 +622,8 @@ textarea {
    <input type="hidden" id="holidayEnd" th:value="${treatCommand.holidayEnd}">
    
    <table width="800" border="1" align="center" >
-		<tr><td>시</td><td>9시</td><td>10시</td><td>11시</td><td>12시</td><td>13시</td>
-			<td>14시</td><td>15시</td><td>16시</td><td>17시</td><td>18시</td>
+		<tr><td>시</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+			<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td>
 		</tr>
 		<tr><td>분</td>
 			<td><select id="selection9" name="timeSelection" onchange="updateSelect('selection9')">
@@ -705,11 +683,12 @@ textarea {
 	<tr>
 		<input type="hidden" id="reserveNum" name="reserveNum" th:value="${reserveCommand.reserveNum}" />
 		<th>진료 날짜</th>
-		<td><input type="text" id="reserveDate" name="reserveDate" readonly="readonly" /></td>
+		<td><input type="text" id="reserveDate" name="reserveDate" readonly="readonly" />
+			<input type="text" id="selected-day" readonly="readonly"></td>
 	</tr>
 	<tr>
 		<th>진료 시간</th>
-		<td><input type="text" id="reserveTime" name="reserveTime" value="예약시간을 선택해주세요. (예약시간을 엄수해주시기 바랍니다)"/></td>
+		<td><input type="text" id="reserveTime" name="reserveTime" placeholder="예약시간을 선택해주세요. (예약시간을 엄수해주시기 바랍니다)" readonly="readonly"/></td>
 	</tr>
 	<tr>
 		<th>진료 받으실 분</th>
@@ -719,7 +698,7 @@ textarea {
 	</tr>
 	<tr>
 		<th>주민번호 뒷자리</th>
-		<td>주민번호 뒷자리를 입력해주세요 : <input type=text name="checkUser" id="checkUser" /></td>
+		<td><input type=text name="checkUser" id="checkUser" placeholder="주민번호 뒷자리를 입력해주세요"/></td>
 	</tr>
 	<tr>
 		<th>증상</th>

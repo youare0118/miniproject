@@ -15,4 +15,5 @@ public class ReserveDTO {
 	String reserveContent;
 	String reserveState;
 	String doctor;
+	String reserveTime;
 }

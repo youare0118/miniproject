@@ -5,14 +5,14 @@
 <mapper namespace="miniProject.mapper.ReserveMapper">
 <sql id="reserveBaseColumns">
 	RESERVE_NUM, HOSPITAL_NUM, MEMBER_NUM, MEMBER_NAME
-	, RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE
+	, RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE, DOCTOR, RESERVE_TIME
 </sql>
 
 <insert id="reserveInsert" parameterType="reserve">
 	insert into reserve1(RESERVE_NUM, HOSPITAL_NUM, MEMBER_NUM, MEMBER_NAME, 
-						RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE, DOCTOR)
+						RESERVE_DATE, RESERVE_CONTENT, RESERVE_STATE, DOCTOR, RESERVE_TIME)
 	values(#{reserveNum}, #{hospitalNum}, #{memberNum}, #{memberName}
-			, #{reserveDate}, #{reserveContent}, '예약완료', #{doctor})
+			, #{reserveDate}, #{reserveContent}, '예약완료', #{doctor}, #{reserveTime})
 	
 </insert>
 </mapper>

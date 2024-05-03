@@ -29,6 +29,7 @@ public class ReserveInsertService {
 		dto.setReserveContent(reserveCommand.getReserveContent());
 		dto.setReserveState(reserveCommand.getReserveState());
 		dto.setDoctor(reserveCommand.getDoctor());
+		dto.setReserveTime(reserveCommand.getReserveTime());
 		
 		reserveMapper.reserveInsert(dto);
 	}
