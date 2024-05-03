@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import miniProject.service.MainService;
+import miniProject.service.reserve.TreatTimeSetService;
 
 
 @Controller
@@ -29,6 +30,7 @@ public class MiniProjectApplication {
 		   , @RequestParam(value = "searchWord", required = false) String searchWord
 		   , Model model) {
 	   mainService.execute(model, page, searchWord);
+	   
 	   return "thymeleaf/main";
    }
 

@@ -19,6 +19,7 @@ import miniProject.service.myPage.MemberInfoService;
 import miniProject.service.reserve.HospitalInfoService;
 import miniProject.service.reserve.ReserveAutoNumService;
 import miniProject.service.reserve.ReserveInsertService;
+import miniProject.service.reserve.TreatTimeSetService;
 
 @Controller
 @RequestMapping("reserve")
@@ -32,12 +33,15 @@ public class ReserveController {
 	ReserveInsertService reserveInsertService;
 	@Autowired
 	ReserveAutoNumService reserveAutoNumService;
+	@Autowired
+	TreatTimeSetService treatTimeSetService;
 	
 	@GetMapping("reservation/{hospitalNum}")
 	public String reservationPage(@PathVariable("hospitalNum") String hospitalNum, HttpSession session, Model model){
 		reserveAutoNumService.execute(model);
 		hospitalInfoService.execute(hospitalNum, model);
 		memberInfoService.execute(session, model);
+		treatTimeSetService.execute("hos100001", model);
 		return "thymeleaf/reserve/reservationPage";
 	}
 	@PostMapping("reservation/reserveCommit")

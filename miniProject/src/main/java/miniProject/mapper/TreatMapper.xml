@@ -22,6 +22,10 @@
 			, #{saturdayStart}, #{saturdayEnd}, #{sundayStart}, #{sundayEnd}, #{holidayStart}, #{holidayEnd})
 </insert>
 
-
+<select id="treatSelectOne" resultType="treat" parameterType="string">
+   select <include refid="treatBaseColumns" />
+   from treat
+   where HOSPITAL_NUM = #{hospitalNum}
+</select>
 
 </mapper>

@@ -9,4 +9,5 @@ import miniProject.domain.TreatDTO;
 @Repository("miniProject.mapper.TreatMapper")
 public interface TreatMapper {
 	public void treatInsert(TreatDTO dto);
+	public TreatDTO treatSelectOne(String hospitalNum);
 }

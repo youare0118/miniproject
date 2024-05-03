@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="main.css">
 <meta charset="UTF-8">
 <title>메디북 : 병원예약사이트</title>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee54e408fd253fbd47664b71010d6e40&libraries=services,clusterer,drawing"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
+
+/* 선택한 병원 주소 위치 보여주기 */
 function btnGetDirections(hospitalName){
 	location.href='https://map.kakao.com/?sName=&eName=' + hospitalName;
 }
+
+/* 버튼 예약하기 이동 */
 function btnReserve(hospitalNum){
 	location.href='/reserve/reservation/' + hospitalNum;
 }
+
+/* 지도 */
 $(function(){
-	$("#addrMarkerOn").click(function(){
-		var hospitalAddr = document.getElementById('addrMarkerOn').getAttribute('data-value');
+	$('.addrMarkerOn').click(function(){
+		var hospitalAddr = $(this).text();
+		console.log(hospitalAddr);
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = { 
 		        center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
@@ -52,18 +59,13 @@ $(function(){
 		             image: markerImage // 마커이미지 설정 
 		         });
 
-		         // 인포윈도우로 장소에 대한 설명을 표시합니다
-		         /* var infowindow = new kakao.maps.InfoWindow({
-		             content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-		         });
-		         infowindow.open(map, marker); */
-
 		         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 		         map.setCenter(coords);
 		     } 
 		 });
 	})
 });
+
 </script>
 <style>
 header:p {
@@ -81,14 +83,14 @@ header {
 }
 
 #search_list {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     float: left;
     width:55%;
     box-sizing: border-box;
 }
 
 #map{
-    border: 1px solid green; 
+    /* border: 1px solid green;  */
     float: left;
     margin-left: 5%;
     width:40%;
@@ -162,7 +164,7 @@ header {
       		<tr th:each= "dto : ${dtos}">
         		<td>[[${dto.hospitalName}]]</td>
         		<td>[[${dto.hospitalPhone}]]</td>
-        		<td><a id="addrMarkerOn" th:data-value="${dto.hospitalAddr}">[[${dto.hospitalAddr}]]</a></td>
+        		<td><a class="addrMarkerOn" th:value="${dto.hospitalAddr}">[[${dto.hospitalAddr}]]</a></td>
         		<td><button type="button" th:attr="onclick=|btnGetDirections('${dto.hospitalName}')|">길찾기</button></td>
         		<td><button type="button" th:attr="onclick=|btnReserve('${dto.hospitalNum}')|">예약하기</button></td>
       		</tr>
@@ -252,6 +254,7 @@ header {
 		}    
 	</script>
 </div>
+   
    
 </section>
 </body>

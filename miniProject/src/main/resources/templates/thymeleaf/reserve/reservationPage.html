@@ -6,6 +6,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee54e408fd253fbd47664b71010d6e40&libraries=services,clusterer,drawing"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript">
+
 function prevMonth(date) {
     var target = new Date(date);
     target.setDate(1);
@@ -67,6 +68,7 @@ function fullDays(date) {
 
     return days;
 }
+
 function drawMonth(date) {
     $('#month-this').text(date.substring(0, 7).replace('-', '.'));
     $('#month-prev').data('ym', prevMonth(date));
@@ -101,6 +103,7 @@ function drawMonth(date) {
 }
 
 $(function () {
+	
     var date = (new Date()).toISOString().substring(0, 10);
     drawMonth(date);
 
@@ -109,7 +112,89 @@ $(function () {
 
         drawMonth($(this).data('ym'));
     });
+    
+ 	// 캘린더를 눌렀을때 발생하는 이벤트로하여금 해당 요일을 돌려받아 값에 포함시켜야함
+	$("#cal").click(function(){
+		var day = 1;  // 0:일요일 ~ 6:토요일 경우
+		var dayStart; //시작
+		var dayEnd;   //끝
+		
+		if(day == 0){
+			dayStart = document.getElementById('sundayStart').value;
+			dayEnd = document.getElementById('sundayEnd').value;
+		}else if(day == 1){
+			dayStart = document.getElementById('mondayStart').value;
+			dayEnd = document.getElementById('mondayEnd').value;
+		}else if(day == 2){
+			dayStart = document.getElementById('tuesdayStart').value;
+			dayEnd = document.getElementById('tuesdayEnd').value;
+		}else if(day == 3){
+			dayStart = document.getElementById('wednesdayStart').value;
+			dayEnd = document.getElementById('wednesdayEnd').value;
+		}else if(day == 4){
+			dayStart = document.getElementById('thursdayStart').value;
+			dayEnd = document.getElementById('thursdayEnd').value;
+		}else if(day == 5){
+			dayStart = document.getElementById('fridayStart').value;
+			dayEnd = document.getElementById('fridayEnd').value;
+		}else if(day == 6){
+			dayStart = document.getElementById('saturdayStart').value;
+			dayEnd = document.getElementById('saturdayEnd').value;
+		}else{
+			dayStart = document.getElementById('holidayStart').value;
+			dayEnd = document.getElementById('holidayEnd').value;
+		}
+		
+		var startTime = strTime(dayStart);
+		var endTime = strTime(dayEnd);
+		possibleTime(startTime, endTime);
+	})
 });
+
+/* reserve : 선택된 시간 반환 */
+function updateSelect(selectedId) {
+    var selects = document.querySelectorAll('select[name="timeSelection"]');
+    for (var i = 0; i < selects.length; i++) {
+        var select = selects[i];
+        if (select.id !== selectedId) {
+            select.value = "none";
+        }
+    }
+    var selectedValue = document.getElementById(selectedId).value;
+    var pTag = document.getElementById("reserveTime");
+    if(selectedValue != "none"){
+    	pTag.innerText = selectedId.substr(9) + ":" + selectedValue;
+    }else{
+        pTag.innerText = "예약시간을 선택해주세요. (예약시간을 엄수해주시기 바랍니다)";
+    }
+}
+
+/* reserve : 시간 슬라이스 */
+function strTime(str) {
+    var index = str.indexOf(":");
+    if (index !== -1) {
+		return parseInt(str.substring(0, index)); 
+    }
+}
+
+/* reserve : 시간 선택 활성화 */
+function possibleTime(start, end){
+	
+	// 일단 모두 안보이게 해놓기
+	var selects = document.querySelectorAll('select[name="timeSelection"]');
+	for (var i = 0; i < selects.length; i++) {
+		var select = selects[i];
+			select.style.display = "none";
+	}
+	
+	// 예약 가능 시간만 보이도록 함
+	for (var i = 9; i <= 18; i++) {
+	    if(i >= start && i < end){
+	        var possibleSelect = document.getElementById(`selection${i}`);
+	        possibleSelect.style.display = "block";
+	    }
+	}
+}
 
 // 캘린더의 각 날짜를 클릭했을 때 실행될 함수
 function selectDate(year, month, day) {
@@ -131,6 +216,41 @@ document.addEventListener('DOMContentLoaded', function () {
             var day = this.innerText;
 
             selectDate(year, month, day);
+            
+         // 캘린더를 눌렀을때 발생하는 이벤트로하여금 해당 요일을 돌려받아 값에 포함시켜야함
+            var day = 1;  // 0:일요일 ~ 6:토요일 경우
+        	var dayStart; //시작
+        	var dayEnd;   //끝
+        	
+        	if(day == 0){
+        		dayStart = document.getElementById('sundayStart').value;
+        		dayEnd = document.getElementById('sundayEnd').value;
+        	}else if(day == 1){
+        		dayStart = document.getElementById('mondayStart').value;
+        		dayEnd = document.getElementById('mondayEnd').value;
+        	}else if(day == 2){
+        		dayStart = document.getElementById('tuesdayStart').value;
+        		dayEnd = document.getElementById('tuesdayEnd').value;
+        	}else if(day == 3){
+        		dayStart = document.getElementById('wednesdayStart').value;
+        		dayEnd = document.getElementById('wednesdayEnd').value;
+        	}else if(day == 4){
+        		dayStart = document.getElementById('thursdayStart').value;
+        		dayEnd = document.getElementById('thursdayEnd').value;
+        	}else if(day == 5){
+        		dayStart = document.getElementById('fridayStart').value;
+        		dayEnd = document.getElementById('fridayEnd').value;
+        	}else if(day == 6){
+        		dayStart = document.getElementById('saturdayStart').value;
+        		dayEnd = document.getElementById('saturdayEnd').value;
+        	}else{
+        		dayStart = document.getElementById('holidayStart').value;
+        		dayEnd = document.getElementById('holidayEnd').value;
+        	}
+        	
+        	var startTime = strTime(dayStart);
+        	var endTime = strTime(dayEnd);
+        	possibleTime(startTime, endTime);
         });
     });
 });
@@ -141,9 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <style>
 /* 달력 */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-
-
 
 /* 이외 */
 header:p {
@@ -156,22 +273,23 @@ header {
 }
 
 #parent{
-    width: 90%;
+    width: 100%;
     margin: 10px auto;
 }
 
 #hospitalInfo {
     /* border: 1px solid red; */
     float: left;
-    width:40%;
+    margin-left: 5%;
+    width:30%;
     box-sizing: border-box;
 }
 
 #reservationInfo{
-    border: 1px solid green; 
+    /* border: 1px solid green;  */
     float: left;
-    margin-left: 5%;
-    width:55%;
+    margin-left: 2%;
+    width:60%;
     box-sizing: border-box;
 }
 
@@ -277,11 +395,9 @@ td a:active {
 
 
 
-
-
 /* 전체 폼 스타일 */
 form {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -357,7 +473,7 @@ textarea {
 	<a href="/"><img src="/static/images/logo.png" width="200" height="70" alt="로고이미지" ></a>
 	<th:block th:if="${session.auth != null}" >
 		<th:block th:if="${session.auth.grade == 'mem'}">
-	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</p>
+	   		<p><a href="/myPage/myPageDefalt">My Page</a> | <a href="login/logout">로그아웃</a></p>
 		</th:block>
 		<th:block th:if="${session.auth.grade == 'hospital'}">
 	   		<p><a href="/medicalUser/hospitalMyPage">내 병원 관리</a> | <a href="login/logout">로그아웃</a></p>
@@ -365,26 +481,10 @@ textarea {
 	</ul>
 	</th:block>
 	<th:block th:if="${session.auth == null}">
-   		<p style="margin: 0 50px 0 0;"><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</p></a>
+   		<p style="margin: 0 50px 0 0;"><a href="/login/loginAgree">회원가입</a> | <a href="/login/login">로그인</a></p>
 	</th:block>
 
 </header>
-
-	<th:block th:if="${session.auth != null}" >
-		<th:block th:if="${session.auth.grade == 'mem'}">
-			<ul>
-				<li><a href="myPage/myPageDefalt">마이페이지</a></li>
-			</ul>
-	
-	        <!-- 관리자만 사용 가능 관리자 ID : medibook / PW:medibook00@ -->
-			<th:block th:if="${session.auth.userId == 'medibook'}">
-				<ul>
-			  		 <li><a href="member/memberList">관리자 : 회원관리</a></li>
-			  		 <li><a href="">관리자 : 병원관리</a></li>
-				</ul>
-			</th:block>
-		</th:block>
-	</th:block>
 
 <div id="parent">
 <div id="hospitalInfo">
@@ -392,7 +492,7 @@ textarea {
 <p class="mSize">[[${hospitalCommand.hospitalCategory }]]</p>
 <p class="LSize">[[${hospitalCommand.hospitalName }]]</p>
 
-<br/><hr>
+<hr>
 <p class="mSize">진료 시간</p>
 <p class="sSize">진료 시간</p>
 
@@ -468,7 +568,7 @@ textarea {
 
 <div id="reservationInfo">
 <form action="reserveCommit" method="post">
-<table width="600" align="center" border="1">
+<table width="800" align="center" border="1">
 	<tr>
 		<input type="hidden" id="hospitalNum" name="hospitalNum" th:value="${hospitalCommand.hospitalNum}"/>
 		<td>진료실 / 의사 : 
@@ -524,11 +624,92 @@ textarea {
     </table>
 </div>
 
+<!-- reserve로 옮길것들 -->
+   
+   <input type="hidden" id="mondayStart" th:value="${treatCommand.mondayStart}">
+   <input type="hidden" id="mondayEnd" th:value="${treatCommand.mondayEnd}">
+   <input type="hidden" id="tuesdayStart" th:value="${treatCommand.tuesdayStart}">
+   <input type="hidden" id="tuesdayEnd" th:value="${treatCommand.tuesdayEnd}">
+   <input type="hidden" id="wednesdayStart" th:value="${treatCommand.wednesdayStart}">
+   <input type="hidden" id="wednesdayEnd" th:value="${treatCommand.wednesdayEnd}">
+   <input type="hidden" id="thursdayStart" th:value="${treatCommand.thursdayStart}">
+   <input type="hidden" id="thursdayEnd" th:value="${treatCommand.thursdayEnd}">
+   <input type="hidden" id="fridayStart" th:value="${treatCommand.fridayStart}">
+   <input type="hidden" id="fridayEnd" th:value="${treatCommand.fridayEnd}">
+   <input type="hidden" id="saturdayStart" th:value="${treatCommand.saturdayStart}">
+   <input type="hidden" id="saturdayEnd" th:value="${treatCommand.saturdayEnd}">
+   <input type="hidden" id="sundayStart" th:value="${treatCommand.sundayStart}">
+   <input type="hidden" id="sundayEnd" th:value="${treatCommand.sundayEnd}">
+   <input type="hidden" id="holidayStart" th:value="${treatCommand.holidayStart}">
+   <input type="hidden" id="holidayEnd" th:value="${treatCommand.holidayEnd}">
+   
+   <table width="800" border="1" align="center" >
+		<tr><td>시</td><td>9시</td><td>10시</td><td>11시</td><td>12시</td><td>13시</td>
+			<td>14시</td><td>15시</td><td>16시</td><td>17시</td><td>18시</td>
+		</tr>
+		<tr><td>분</td>
+			<td><select id="selection9" name="timeSelection" onchange="updateSelect('selection9')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection10" name="timeSelection" onchange="updateSelect('selection10')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection11" name="timeSelection" onchange="updateSelect('selection11')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection12" name="timeSelection" onchange="updateSelect('selection12')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection13" name="timeSelection" onchange="updateSelect('selection13')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection14" name="timeSelection" onchange="updateSelect('selection14')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection15" name="timeSelection" onchange="updateSelect('selection15')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection16" name="timeSelection" onchange="updateSelect('selection16')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection17" name="timeSelection" onchange="updateSelect('selection17')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+			<td><select id="selection18" name="timeSelection" onchange="updateSelect('selection18')">
+					<option value="none" selected="selected">선택</option> 
+          			<option value="00">00</option>
+           			<option value="30">30</option>
+        		</select></td>
+		</tr>
+	</table>
+	
 <table border=1 align="center">
 	<tr>
 		<input type="hidden" id="reserveNum" name="reserveNum" th:value="${reserveCommand.reserveNum}" />
 		<th>진료 날짜</th>
 		<td><input type="text" id="reserveDate" name="reserveDate" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>진료 시간</th>
+		<td><input type="text" id="reserveTime" name="reserveTime" value="예약시간을 선택해주세요. (예약시간을 엄수해주시기 바랍니다)"/></td>
 	</tr>
 	<tr>
 		<th>진료 받으실 분</th>
