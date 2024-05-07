@@ -15,4 +15,10 @@
 			, #{reserveDate}, #{reserveContent}, '예약완료', #{doctor}, #{reserveTime})
 	
 </insert>
+
+<select id="myReserveSelectList" resultType="reserve" parameterType="string">
+select <include refid="reserveBaseColumns"/>
+from reserve1
+where MEMBER_NUM IN ( SELECT MEMBER_NUM FROM MEMBER WHERE MEMBER_ID = #{memberId})
+</select>
 </mapper>

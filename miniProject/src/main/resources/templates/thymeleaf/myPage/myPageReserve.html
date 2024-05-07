@@ -129,5 +129,23 @@ input[type="button"]:hover {
     </div>
 </nav>
 <h2>내 정보 관리 > 예약내역</h2>
+
+<br/>
+	<table border = "1" width ="600" align="center">
+		<tr><td>번호</td><td>병원명</td><td>진료실 / 의사명</td><td>진료과목</td><td>상태</td><td>예약날짜</td><td>예약시간</td><td>예약자명</td></tr>
+		
+		<tr th:each="dto : ${dtos}">
+			<td></td>
+			<td>[[${dto.hospitalNum}]]</td>
+			<td>[[${dto.doctor}]]</td>
+			<td>[[${dto.reserveContent}]]</td>
+			<td>[[${dto.reserveState}]]</td>
+			<td>[[${dto.reserveDate}]]</td>
+			<td>[[${dto.reserveTime}]]</td>
+			<td>[[${dto.memberName}]]</td>
+		</tr>
+	</table>
+	
+	<br/>
 </body>
 </html>

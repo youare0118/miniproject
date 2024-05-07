@@ -19,6 +19,7 @@ import miniProject.command.UserPwCommand;
 import miniProject.service.myPage.MemberAccountService;
 import miniProject.service.myPage.MemberDropService;
 import miniProject.service.myPage.MemberInfoService;
+import miniProject.service.myPage.MyReserveListService;
 import miniProject.service.myPage.UserPasswordConfirmService;
 
 @Controller
@@ -92,8 +93,11 @@ public class MyPageController {
 		return "thymeleaf/myPage/myPageNewPw";
 	}
 	
+	@Autowired
+	MyReserveListService myReserveListService;
 	@GetMapping("myPageReserve")
-	public String myPageReserve() {
+	public String myPageReserve(HttpSession session, Model model) {
+		myReserveListService.execute(session, model);
 		return "thymeleaf/myPage/myPageReserve";
 	}
 	
